@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Windows CMD Manual v3</title>
+    <title>Windows CMD Manual</title>
     <style>
       :root {
         --bg: #0f172a;
@@ -289,6 +289,9 @@
 
         .sidebar .command-list { display: none; }
 
+        /* モバイル起動時は詳細を隠し、選択された場合だけ表示する */
+        .command-detail-panel:not(.mobile-detail-visible) { display: none; }
+
         .sidebar.menu-open .command-list {
           display: flex;
           margin-top: 16px;
@@ -318,7 +321,7 @@
     <div class="app">
       <aside class="sidebar" id="commandSidebar">
         <div class="sidebar-heading">
-          <h1>Windows CMD v3</h1>
+          <h1>Windows CMD</h1>
           <button id="menuToggle" class="menu-toggle" type="button" aria-label="コマンド一覧を開く" aria-expanded="false" aria-controls="commandList">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
               <path d="M4 6h16M4 12h16M4 18h16" />
@@ -329,7 +332,7 @@
       </aside>
 
       <main class="main">
-        <section class="panel">
+        <section class="panel command-detail-panel" id="commandDetailPanel">
           <div class="panel-header">コマンド詳細</div>
           <div id="commandDetail" class="detail"></div>
         </section>
@@ -923,6 +926,7 @@
       const commandListEl = document.getElementById('commandList');
       const commandSidebarEl = document.getElementById('commandSidebar');
       const menuToggleEl = document.getElementById('menuToggle');
+      const commandDetailPanelEl = document.getElementById('commandDetailPanel');
 
       function setMobileMenuOpen(isOpen) {
         commandSidebarEl.classList.toggle('menu-open', isOpen);
@@ -931,7 +935,10 @@
       }
 
       menuToggleEl.addEventListener('click', () => {
-        setMobileMenuOpen(!commandSidebarEl.classList.contains('menu-open'));
+        const opening = !commandSidebarEl.classList.contains('menu-open');
+        setMobileMenuOpen(opening);
+        // メニューを閉じる操作では、以前選択したコマンドの詳細も隠す。
+        if (!opening) commandDetailPanelEl.classList.remove('mobile-detail-visible');
       });
       const commandDetailEl = document.getElementById('commandDetail');
       const terminalOutputEl = document.getElementById('terminalOutput');
@@ -954,6 +961,8 @@
             state.history = [];
             resetInputNavigation(true);
             renderCommandDetail(command.name);
+            // 選択時だけ詳細を表示し、一覧を閉じる（PCでは常時表示）。
+            commandDetailPanelEl.classList.add('mobile-detail-visible');
             setMobileMenuOpen(false);
           });
           commandListEl.appendChild(link);
