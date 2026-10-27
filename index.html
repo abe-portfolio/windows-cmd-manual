@@ -927,6 +927,33 @@
         Object.assign(commandCatalog[name], documentation);
       }
 
+
+      // 追加のWindows CMD学習コマンド（端末情報・通信・プロセスは完全に疑似）。
+      commandCatalog["whoami"] = {"name": "whoami", "summary": "現在のユーザー名を表示", "syntax": "whoami [/user]", "description": "ログオンしているユーザーを表示します。仮想環境のユーザーを表示し、実際のPC情報は取得しません。", "options": ["<strong>/user</strong> : ユーザー名とSIDを表示（疑似）"], "examples": [{"code": "whoami", "note": "ユーザー名を表示"}, {"code": "whoami /user", "note": "ユーザー名とSIDを表示"}]};
+      commandCatalog["whoami"].validator = () => ({ok:true});
+      commandCatalog["hostname"] = {"name": "hostname", "summary": "ホスト名を表示", "syntax": "hostname", "description": "現在のコンピューターのホスト名を表示します。実際の端末情報ではなく架空の名前を表示します。", "options": [], "examples": [{"code": "hostname", "note": "ホスト名を表示"}]};
+      commandCatalog["hostname"].validator = () => ({ok:true});
+      commandCatalog["ver"] = {"name": "ver", "summary": "Windowsのバージョンを表示", "syntax": "ver", "description": "Windowsのバージョン文字列を表示します。このサイトでは架空のバージョンを表示します。", "options": [], "examples": [{"code": "ver", "note": "OSバージョンを表示"}]};
+      commandCatalog["ver"].validator = () => ({ok:true});
+      commandCatalog["date"] = {"name": "date", "summary": "日付を表示する", "syntax": "date [/t]", "description": "日付を表示します。/t なしの実CMDは日付変更入力を促すことがありますが、シミュレータでは日付を変更できません。", "options": ["<strong>/t</strong> : 日付を表示するだけ"], "examples": [{"code": "date /t", "note": "日付を表示"}, {"code": "date", "note": "日付を表示（変更操作は未対応）"}]};
+      commandCatalog["date"].validator = () => ({ok:true});
+      commandCatalog["time"] = {"name": "time", "summary": "時刻を表示する", "syntax": "time [/t]", "description": "時刻を表示します。/t なしの実CMDは時刻変更入力を促すことがありますが、シミュレータでは時刻を変更できません。", "options": ["<strong>/t</strong> : 時刻を表示するだけ"], "examples": [{"code": "time /t", "note": "時刻を表示"}, {"code": "time", "note": "時刻を表示（変更操作は未対応）"}]};
+      commandCatalog["time"].validator = () => ({ok:true});
+      commandCatalog["systeminfo"] = {"name": "systeminfo", "summary": "システム情報の一覧を表示", "syntax": "systeminfo", "description": "OS・メモリ・起動時間などを確認するコマンドです。架空のPCのサンプル情報を表示します。", "options": ["<strong>/fo table / csv / list</strong> : 出力形式の指定（未対応）", "<strong>/s</strong> : リモートシステム指定（未対応）"], "examples": [{"code": "systeminfo", "note": "疑似システム情報を表示"}]};
+      commandCatalog["systeminfo"].validator = () => ({ok:true});
+      commandCatalog["tracert"] = {"name": "tracert", "summary": "通信経路をホップ単位で表示", "syntax": "tracert [-d] [-h max_hops] host", "description": "宛先までに経由するルーターなどを調べるコマンドです。架空の経路と応答時間を表示します。", "options": ["<strong>-d</strong> : IPアドレスをホスト名へ変換しない", "<strong>-h 数</strong> : 最大ホップ数（疑似・1〜10）"], "examples": [{"code": "tracert example.com", "note": "宛先までの疑似経路を表示"}, {"code": "tracert -d -h 2 example.com", "note": "名前解決をせず2ホップまで表示"}]};
+      commandCatalog["tracert"].validator = () => ({ok:true});
+      commandCatalog["pathping"] = {"name": "pathping", "summary": "通信経路とパケット損失を調べる", "syntax": "pathping [-n] [-h max_hops] host", "description": "tracertの経路表示とpingの損失調査を組み合わせたコマンド。架空の経路・損失率を即時表示します。", "options": ["<strong>-n</strong> : IPアドレスの名前解決をしない", "<strong>-h 数</strong> : 最大ホップ数（疑似・1〜10）"], "examples": [{"code": "pathping example.com", "note": "疑似経路と損失率を確認"}, {"code": "pathping -n example.com", "note": "名前解決なしで表示"}]};
+      commandCatalog["pathping"].validator = () => ({ok:true});
+      commandCatalog["netstat"] = {"name": "netstat", "summary": "ネットワーク接続・待受ポートを表示", "syntax": "netstat [-a] [-n] [-o]", "description": "TCP/UDP接続や待受ポートの状態を表示します。表示内容は固定の架空の通信情報です。", "options": ["<strong>-a</strong> : 待受ポートも表示", "<strong>-n</strong> : アドレス・ポートを数値で表示", "<strong>-o</strong> : PIDを表示"], "examples": [{"code": "netstat", "note": "疑似TCP接続を表示"}, {"code": "netstat -ano", "note": "待受を含む数値表示＋PID"}]};
+      commandCatalog["netstat"].validator = () => ({ok:true});
+      commandCatalog["fc"] = {"name": "fc", "summary": "2つのファイルの差分を比較", "syntax": "fc [/b] file1 file2", "description": "仮想ファイルシステム内の2つのファイルを比較します。基本的なテキスト行の比較に対応します。", "options": ["<strong>/b</strong> : バイナリ比較（未対応）", "<strong>/n</strong> : 行番号の表示（疑似比較では未対応）"], "examples": [{"code": "fc notes.txt docs\\spec.txt", "note": "2ファイルの本文を比較"}, {"code": "fc notes.txt notes.txt", "note": "同一ファイルの比較"}]};
+      commandCatalog["fc"].validator = () => ({ok:true});
+      commandCatalog["tasklist"] = {"name": "tasklist", "summary": "実行中のプロセスを一覧表示", "syntax": "tasklist [/fi \"imagename eq name\"]", "description": "実行中のプロセスのイメージ名とPIDを表示します。疑似プロセスを使用し、実際のWindowsプロセスにはアクセスしません。", "options": ["<strong>/fi \"imagename eq 名前\"</strong> : プロセス名による絞り込み（簡易対応）", "<strong>/v /svc</strong> : 詳細・サービス表示（未対応）"], "examples": [{"code": "tasklist", "note": "疑似プロセス一覧"}, {"code": "tasklist /fi \"imagename eq notepad.exe\"", "note": "notepad.exeだけを表示"}]};
+      commandCatalog["tasklist"].validator = () => ({ok:true});
+      commandCatalog["taskkill"] = {"name": "taskkill", "summary": "指定したプロセスを終了する", "syntax": "taskkill [/f] /pid PID | /im imageName", "description": "指定したプロセスを終了するコマンドです。実際のプロセスは終了せず、仮想プロセス一覧だけを更新します。", "options": ["<strong>/pid 数値</strong> : プロセスIDで指定", "<strong>/im 名前</strong> : イメージ名で指定", "<strong>/f</strong> : 強制終了（疑似環境では実際の強制終了なし）"], "examples": [{"code": "taskkill /pid 2400", "note": "架空のnotepad.exeを終了"}, {"code": "taskkill /im notepad.exe", "note": "名前で疑似プロセスを終了"}, {"code": "tasklist", "note": "終了後の一覧を確認"}]};
+      commandCatalog["taskkill"].validator = () => ({ok:true});
+
       // ブラウザ内だけに保持する、検索学習用の仮想ファイル本文。
       const INITIAL_CONTENTS = {
         'c:\\work\\notes.txt': 'Windows CMD memo\nERROR: sample failure\nINFO: ready',
@@ -947,6 +974,7 @@
           drivePaths: { C: 'C:\\WORK', D: 'D:\\' },
           fs: structuredClone(INITIAL_FS),
           contents: structuredClone(INITIAL_CONTENTS),
+          processes: [{name:"explorer.exe",pid:1100,protected:true},{name:"notepad.exe",pid:2400},{name:"cmd.exe",pid:3100,protected:true},{name:"chrome.exe",pid:4200}],
           history: []
         };
       }
@@ -1081,6 +1109,19 @@
         redirect: '英語の redirect（向きを変える）から。出力先を画面からファイルなどに切り替えます。',
         pipe: '英語の pipe（管）から。コマンド間を管のようにつなぎ、出力を次へ渡します。'
       };
+
+      commandNameOrigins["whoami"] = "who am I?（私は誰？）という英語の問いを、そのままコマンド名にしています。";
+      commandNameOrigins["hostname"] = "host（ネットワーク上で通信の主体となるコンピューターなど）＋ name（名前）。「computer name」ではなく「host」を使うのは、ネットワークでは接続先・接続元の機器をホストと呼び、その識別名を hostname と呼ぶためです。Windowsの「コンピューター名」と重なることは多いですが、DNS名やFQDNとは必ずしも同義ではありません。";
+      commandNameOrigins["ver"] = "version（バージョン）の省略形です。";
+      commandNameOrigins["date"] = "英語の date（日付）から来ています。";
+      commandNameOrigins["time"] = "英語の time（時刻・時間）から来ています。";
+      commandNameOrigins["systeminfo"] = "system information（システム情報）を縮めた名前です。";
+      commandNameOrigins["tracert"] = "trace route（経路を追跡する）に由来する名称です。Windowsでは tracert、他のOSでは traceroute と呼ばれるコマンドがあります。";
+      commandNameOrigins["pathping"] = "path（経路）＋ ping（応答を確認する）を組み合わせた名前です。";
+      commandNameOrigins["netstat"] = "network statistics（ネットワークの統計）の略です。";
+      commandNameOrigins["fc"] = "file compare（ファイル比較）の略です。";
+      commandNameOrigins["tasklist"] = "task（実行中の処理）＋ list（一覧）から来ています。";
+      commandNameOrigins["taskkill"] = "task（実行中の処理）＋ kill（停止・終了させる）から来ています。";
 
       function renderCommandDetail(commandName) {
         const command = commandCatalog[commandName];
@@ -1685,6 +1726,91 @@
             }
             break;
           }
+          case 'hostname': writeTerminalLine('【疑似端末】CMD-PLAYGROUND'); break;
+          case 'whoami': {
+            if(args.length>1 || (args.length && args[0].toLowerCase()!=='/user')) {writeTerminalLine('構文: whoami [/user]');break;}
+            writeTerminalLine(args.length?'playground\\student   S-1-5-21-1000-1000-1000-1001':'playground\\student');break;
+          }
+          case 'ver': writeTerminalLine('【疑似端末】Microsoft Windows [Version 10.0.19045.0000]'); break;
+          case 'date':
+          case 'time': {
+            if(args.length && !(args.length===1&&args[0].toLowerCase()==='/t')) {writeTerminalLine('構文: '+actualCommand+' [/t]');break;}
+            const d=new Date();
+            const fmt=actualCommand==='date'?new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).format(d):new Intl.DateTimeFormat('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d);
+            writeTerminalLine('【ブラウザの日時】 '+fmt+(args.length?'':'（日時の変更は未対応）'));break;
+          }
+          case 'systeminfo': {
+            if(args.length){writeTerminalLine('systeminfo のオプションは未対応です。');break;}
+            writeTerminalLine('【疑似システム情報：実機ではありません】\nホスト名: CMD-PLAYGROUND\nOS 名: Microsoft Windows 10 Pro (サンプル)\nOS バージョン: 10.0.19045 (サンプル)\nシステム製造元: Example Manufacturer\nシステムの種類: x64-based PC\n物理メモリ合計: 8,192 MB\n利用可能な物理メモリ: 4,096 MB\nネットワーク アダプター: Ethernet / 192.0.2.10');break;
+          }
+          case 'tracert':
+          case 'pathping': {
+            let host='',max=10,bad=false;
+            for(let i=0;i<args.length;i++){
+              const a=args[i].toLowerCase();
+              if(a==='-h' && args[i+1])max=Number(args[++i]);
+              else if(a===(actualCommand==='tracert'?'-d':'-n')){} 
+              else if(a.startsWith('-'))bad=true;
+              else if(!host)host=args[i];else bad=true;
+            }
+            if(bad||!host||!Number.isInteger(max)||max<1||max>10){writeTerminalLine('構文: '+actualCommand+' [-h 1..10] host');break;}
+            const hops=[['192.0.2.1','1 ms'],['198.51.100.1','8 ms'],['203.0.113.10','19 ms']];
+            writeTerminalLine('【疑似経路：実際のネットワークへは接続しません】 '+host+' へのルートを追跡しています');
+            hops.slice(0,max).forEach((hop,i)=>writeTerminalLine(`${i+1}   ${hop[1]}   ${hop[1]}   ${hop[1]}   ${hop[0]}`));
+            if(max<3)writeTerminalLine('指定された最大ホップ数に達しました。');
+            else if(actualCommand==='pathping')writeTerminalLine('\n【疑似損失統計】\nホップ 1: 0% の損失\nホップ 2: 10% の損失\nホップ 3: 0% の損失');
+            else writeTerminalLine('トレースを完了しました。');
+            break;
+          }
+          case 'netstat': {
+            if(args.some(a=>!['-a','-n','-o','-ano','-an','-ao','-no'].includes(a.toLowerCase()))){writeTerminalLine('構文: netstat [-a] [-n] [-o]');break;}
+            const flags=args.join('').toLowerCase(),all=flags.includes('a'),pid=flags.includes('o');
+            writeTerminalLine('【疑似接続一覧】\nプロトコル  ローカル アドレス       外部アドレス          状態'+(pid?'             PID':''));
+            writeTerminalLine('TCP        192.0.2.10:51000       198.51.100.20:443     ESTABLISHED'+(pid?'    4200':''));
+            if(all){writeTerminalLine('TCP        0.0.0.0:135            0.0.0.0:0             LISTENING'+(pid?'      1100':''));writeTerminalLine('UDP        0.0.0.0:5353           *:*'+(pid?'                           1100':''));}
+            break;
+          }
+          case 'fc': {
+            if(args[0]?.startsWith('/')){writeTerminalLine('fc のオプションは現在未対応です。');break;}
+            if(args.length!==2){writeTerminalLine('構文: fc file1 file2');break;}
+            const p1=parsePathInput(args[0]),p2=parsePathInput(args[1]);
+            if(!p1||!p2||!getFile(p1)||!getFile(p2)){writeTerminalLine('比較するファイルが見つかりません。');break;}
+            const a=fileContent(p1).split(/\r?\n/),b=fileContent(p2).split(/\r?\n/);
+            writeTerminalLine(`ファイル ${p1} と ${p2} を比較しています`);
+            if(fileContent(p1)===fileContent(p2))writeTerminalLine('FC: 相違点は検出されませんでした。');
+            else {writeTerminalLine('***** '+p1+'\n'+a.join('\n')+'\n***** '+p2+'\n'+b.join('\n')+'\n*****');}
+            break;
+          }
+          case 'tasklist': {
+            if(args.length){
+              if(args.length!==2||args[0].toLowerCase()!=='/fi'||!/^imagename eq .+$/i.test(args[1])){writeTerminalLine('構文: tasklist [/fi "imagename eq name"]');break;}
+            }
+            const filter=args.length?args[1].replace(/^imagename eq /i,'').toLowerCase():null;
+            const list=state.processes.filter(x=>!filter||x.name.toLowerCase()===filter);
+            writeTerminalLine('【疑似プロセス一覧：実際のプロセスは操作しません】\nイメージ名                   PID');
+            list.forEach(x=>writeTerminalLine(x.name.padEnd(28,' ')+x.pid));
+            if(!list.length)writeTerminalLine('INFO: 指定された条件に一致するタスクはありません。');
+            break;
+          }
+          case 'taskkill': {
+            let pid=null,im=null,invalid=false;
+            for(let i=0;i<args.length;i++){
+              const a=args[i].toLowerCase();
+              if(a==='/f')continue;
+              if(a==='/pid' && args[i+1]){pid=Number(args[++i]);continue;}
+              if(a==='/im' && args[i+1]){im=args[++i].toLowerCase();continue;}
+              invalid=true;
+            }
+            if(invalid||(pid===null)===(im===null)||(pid!==null&&(!Number.isInteger(pid)||pid<1))){writeTerminalLine('構文: taskkill [/f] /pid PID | /im imageName');break;}
+            const matching=state.processes.filter(p=>pid!==null?p.pid===pid:p.name.toLowerCase()===im);
+            if(!matching.length){writeTerminalLine('エラー: 指定されたプロセスが見つかりません。');break;}
+            for(const p of matching){
+              if(p.protected){writeTerminalLine(`エラー: PID ${p.pid} は学習用の保護されたプロセスです。`);continue;}
+              state.processes=state.processes.filter(item=>item!==p);
+              writeTerminalLine(`成功: PID ${p.pid} のプロセス "${p.name}" を終了しました（疑似）。`);
+            }
+            break;
+          }
           case 'ping': {
             let count=4, host='', timeout=4000, bad=false;
             for(let i=0;i<args.length;i++){
@@ -1759,7 +1885,7 @@
               writeTerminalLine(`${detail.name} : ${detail.summary}`);
               writeTerminalLine(`構文: ${detail.syntax}`);
             } else {
-              writeTerminalLine('利用可能なコマンド: mkdir/md, dir, cd/chdir, del/erase, rmdir/rd, copy, xcopy, robocopy, move, ren/rename, tree, find, findstr, where, echo, type, ping, ipconfig, nslookup, cls, help, C:, D:');
+              writeTerminalLine('利用可能なコマンド: whoami, hostname, ver, date, time, systeminfo, tracert, pathping, netstat, fc, tasklist, taskkill, mkdir/md, dir, cd/chdir, del/erase, rmdir/rd, copy, xcopy, robocopy, move, ren/rename, tree, find, findstr, where, echo, type, ping, ipconfig, nslookup, cls, help, C:, D:');
             }
             break;
           }
