@@ -119,6 +119,15 @@
         min-width: 0;
       }
 
+      /* はじめにページだけ、説明を全幅にして疑似端末を隠す。 */
+      .main.intro-mode { grid-template-columns: minmax(0, 1fr); }
+      .main.intro-mode .terminal-pane { display: none; }
+      .intro-content { width: 100%; max-width: none; line-height: 1.85; }
+      .intro-content h3 { margin: 24px 0 8px; color: var(--accent); }
+      .intro-content p { margin: 8px 0 14px; }
+      .intro-content .intro-example { padding: 12px 14px; background: rgba(15, 23, 42, .9); border: 1px solid var(--line); border-radius: 10px; color: #dbeafe; font-family: Consolas, monospace; overflow-x: auto; }
+      .intro-content .intro-note { color: var(--muted); font-size: .9rem; }
+
       .panel {
         background: rgba(17, 24, 39, 0.9);
         border: 1px solid var(--line);
@@ -163,6 +172,32 @@
         color: #dbeafe;
         margin-bottom: 14px;
       }
+
+      .command-example .example-copy-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .command-example .example-copy-row .syntax {
+        flex: 1;
+        min-width: 0;
+        margin-bottom: 0;
+        overflow-wrap: anywhere;
+      }
+      .copy-command-button {
+        flex-shrink: 0;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel-2);
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .copy-command-button:hover { border-color: var(--accent); }
+      .copy-command-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .copy-command-button:disabled { opacity: 0.8; cursor: default; }
 
       .option-list {
         margin: 0;
@@ -331,7 +366,7 @@
         <nav id="commandList" class="command-list" aria-label="コマンド一覧"></nav>
       </aside>
 
-      <main class="main">
+      <main class="main" id="mainContent">
         <section class="panel command-detail-panel" id="commandDetailPanel">
           <div class="panel-header">コマンド詳細</div>
           <div id="commandDetail" class="detail"></div>
@@ -947,7 +982,53 @@
       const currentPathEl = document.getElementById('currentPath');
       const terminalFormEl = document.getElementById('terminalForm');
 
+      const mainContentEl = document.getElementById('mainContent');
+      const INTRO_PAGE = 'intro';
+
+      function showIntroPage() {
+        mainContentEl.classList.add('intro-mode');
+        document.querySelectorAll('.command-link').forEach(button => {
+          button.classList.toggle('active', button.dataset.commandName === INTRO_PAGE);
+        });
+        commandDetailEl.dataset.commandName = INTRO_PAGE;
+        commandDetailEl.innerHTML = `
+          <div class="intro-content">
+            <span class="badge">はじめに</span>
+            <h2>そもそもコマンドプロンプトとは？</h2>
+            <p><strong>コマンドプロンプト（Command Prompt）</strong>は、Windowsに標準搭載されている、文字を入力してパソコンを操作するためのツールです。「CMD（シーエムディー）」とも呼ばれます。</p>
+            <p>普段はエクスプローラーをマウスで操作してフォルダを開いたりファイルをコピーしたりしますが、コマンドプロンプトでは同じような操作を<strong>コマンド（命令文）</strong>で実行できます。</p>
+
+            <h3>何ができるの？</h3>
+            <p>フォルダの移動や作成、ファイルの一覧表示・コピー・削除、ネットワークの状態確認などができます。また、複数の命令をまとめた <strong>.bat ファイル（バッチファイル）</strong>を作ると、繰り返しの作業を自動化できます。</p>
+
+            <h3>コマンドの入力例</h3>
+            <div class="intro-example">C:\WORK&gt; dir</div>
+            <p><code> C:\WORK&gt; </code> は現在の作業場所を示す表示（プロンプト）です。入力するのは <strong>dir</strong> の部分で、Enterキーを押すと現在のフォルダ内のファイルやフォルダを一覧表示します。</p>
+            <div class="intro-example">C:\WORK&gt; mkdir sample</div>
+            <p>こちらは <strong>sample</strong> という名前のフォルダを作成する例です。</p>
+
+            <h3>どうやって起動するの？</h3>
+            <p>Windowsのスタートメニューで「cmd」または「コマンドプロンプト」と検索して起動できます。<strong>Win + R</strong> を押して「cmd」と入力し、Enterキーを押す方法もあります。</p>
+
+            <h3>PowerShellとは何が違う？</h3>
+            <p>コマンドプロンプトは従来のWindowsコマンドやバッチファイルを扱うための環境です。PowerShellは、より高度な自動化や管理作業向けに設計された別のコマンド操作環境です。同じコマンドが使える場合もありますが、構文や機能は同一ではありません。</p>
+
+            <h3>このサイトの使い方</h3>
+            <p>左のメニューから <strong>mkdir</strong> や <strong>dir</strong> などを選ぶと、コマンドの意味・使い方・実行例を確認できます。実行例は「コピー」ボタンでコピーできます。また、通常のコマンドページには疑似エクスプローラと入力欄があり、コマンドを試せます。</p>
+            <p class="intro-note">※ このサイトのターミナルは学習用のシミュレータです。パソコンの実際のファイルやネットワークは操作しません。実際のWindowsコマンドと動作が異なる場合があります。</p>
+          </div>`;
+        commandDetailPanelEl.classList.add('mobile-detail-visible');
+        setMobileMenuOpen(false);
+      }
+
       function initCommandList() {
+        const introLink = document.createElement('button');
+        introLink.type = 'button';
+        introLink.className = 'command-link';
+        introLink.dataset.commandName = INTRO_PAGE;
+        introLink.innerHTML = '<span class="command-name">そもそもコマンドプロンプトとは？</span><span class="command-summary">初めての方向け・基本解説</span>';
+        introLink.addEventListener('click', showIntroPage);
+        commandListEl.appendChild(introLink);
         Object.values(commandCatalog).forEach((command) => {
           const link = document.createElement('button');
           link.type = 'button';
@@ -973,27 +1054,99 @@
         return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
       }
 
+      // 名前の由来をコマンド説明の直下に補足する。
+      // コマンド名の由来（確かな略語・英単語の意味に限定）。実行処理には影響しない。
+      const commandNameOrigins = {
+        mkdir: 'make directory（ディレクトリを作成する）の略。別名 md も同じ意味です。',
+        dir: 'directory（ディレクトリ）の省略形です。',
+        cd: 'change directory（ディレクトリを変更する）の略。chdir も同じ意味です。',
+        echo: '英語の echo（反響・こだま）から。指定した文字列をそのまま表示するイメージです。',
+        cls: 'clear screen（画面を消去する）の略です。',
+        del: 'delete（削除する）の省略形。別名 erase も「消去する」という意味です。',
+        rmdir: 'remove directory（ディレクトリを削除する）の略。別名 rd も同じ意味です。',
+        copy: '英語の copy（複製する）から来ています。',
+        xcopy: 'extended copy（拡張されたコピー）に由来する名称です。',
+        robocopy: 'robust file copy（堅牢なファイルコピー）の略です。',
+        move: '英語の move（移動する）から来ています。',
+        ren: 'rename（名前を変更する）の省略形です。',
+        tree: '英語の tree（木）から。フォルダ階層を枝分かれした木のように表示します。',
+        ping: 'ネットワークで応答を確かめる名称で、音波探知の「ping（ピンという反響音）」に由来します。公式な英単語の頭文字の略ではありません。',
+        ipconfig: 'IP configuration（IPの設定・構成）の略です。',
+        nslookup: 'name server lookup（ネームサーバーへの問い合わせ）に由来します。',
+        type: '英語の type（タイプする・文字を打つ）から。ファイルの内容を画面に表示するコマンド名です。',
+        find: '英語の find（見つける・探す）から来ています。',
+        findstr: 'find string（文字列を検索する）を縮めた名前です。',
+        where: '英語の where（どこ）から。ファイルがどこにあるか探します。',
+        help: '英語の help（助ける・手助け）から。使い方を案内します。',
+        redirect: '英語の redirect（向きを変える）から。出力先を画面からファイルなどに切り替えます。',
+        pipe: '英語の pipe（管）から。コマンド間を管のようにつなぎ、出力を次へ渡します。'
+      };
+
       function renderCommandDetail(commandName) {
         const command = commandCatalog[commandName];
         if (!command) return;
+        mainContentEl.classList.remove('intro-mode');
 
         document.querySelectorAll('.command-link').forEach((button) => {
           button.classList.toggle('active', button.dataset.commandName === commandName);
         });
 
+        commandDetailEl.dataset.commandName = commandName;
         commandDetailEl.innerHTML = `
           <span class="badge">Windows CMD</span>
           <h2>${displayCommandName(command.name)}</h2>
           <div class="syntax">${command.syntax}</div>
           <p>${command.description}</p>
+          ${commandNameOrigins[commandName] ? `<p class="command-origin"><strong>名前の由来：</strong>${escapeHtml(commandNameOrigins[commandName])}</p>` : ''}
           ${command.scenarios ? `<h3>学習用シナリオ</h3><ul class="option-list">${command.scenarios.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}
           <h3>オプション</h3>
           <ul class="option-list">
             ${command.options.length ? command.options.map((option) => `<li>${option}</li>`).join('') : '<li>オプションなし</li>'}
           </ul>
-          ${command.examples ? `<h3>実行例</h3>${command.examples.map(example => `<div class="command-example"><div class="syntax">${escapeHtml(example.code)}</div><p>${escapeHtml(example.note)}</p></div>`).join('')}` : ''}
+          ${command.examples ? `<h3>実行例</h3>${command.examples.map((example, index) => `<div class="command-example"><div class="example-copy-row"><div class="syntax">${escapeHtml(example.code)}</div><button type="button" class="copy-command-button" data-example-index="${index}" aria-label="コマンドをコピー: ${escapeHtml(example.code)}">コピー</button></div><p>${escapeHtml(example.note)}</p></div>`).join('')}` : ''}
         `;
       }
+
+      // 実行例をワンクリックでコピー。HTMLにコードを属性として埋め込まず、元データから取得する。
+      commandDetailEl.addEventListener('click', async (event) => {
+        const button = event.target.closest('.copy-command-button');
+        if (!button || !commandDetailEl.contains(button)) return;
+
+        const command = commandCatalog[commandDetailEl.dataset.commandName];
+        const index = Number(button.dataset.exampleIndex);
+        const example = command?.examples?.[index];
+        if (!example || button.disabled) return;
+
+        button.disabled = true;
+        try {
+          // file://で開いた環境など Clipboard API が利用できない場合も考慮。
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(example.code);
+          } else {
+            const input = document.createElement('textarea');
+            input.value = example.code;
+            input.style.position = 'fixed';
+            input.style.opacity = '0';
+            document.body.appendChild(input);
+            input.select();
+            try {
+              if (!document.execCommand('copy')) throw new Error('コピーに失敗しました');
+            } finally {
+              input.remove();
+            }
+          }
+          button.textContent = 'コピー済み';
+        } catch (error) {
+          button.textContent = 'コピー失敗';
+          console.warn('コマンドのコピーに失敗しました:', error);
+        }
+        setTimeout(() => {
+          if (button.isConnected) {
+            button.textContent = 'コピー';
+            button.disabled = false;
+          }
+        }, 1400);
+      });
 
       function getCurrentDirectoryEntries() {
         const entries = state.fs[state.currentPath] || [];
@@ -1741,8 +1894,8 @@
 
       function init() {
         initCommandList();
-        renderCommandDetail('mkdir');
         renderExplorer();
+        showIntroPage();
         writeTerminalLine('Windows CMD シミュレータを起動しました。');
         writeTerminalLine('例: echo Hello > hello.txt / type hello.txt | find \"Hello\" / ping localhost / find "ERROR" notes.txt / findstr /s "INFO" *.txt / where /r C:\\WORK *.txt');
         writeTerminalLine('');
