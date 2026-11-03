@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://formspree.io; object-src 'none'; base-uri 'none'; form-action 'none'" />
   <title>お問い合わせ | Windows CMD</title>
-  <link rel="stylesheet" href="../css/style.css?v=15" />
+  <link rel="stylesheet" href="../css/style.css?v=17" />
 </head>
 <body>
   <div class="placeholder-shell">
@@ -32,15 +32,15 @@
             <input id="contactSubject" name="subject" type="text" maxlength="100" required placeholder="お問い合わせ内容の概要" />
             <label for="contactMessage" id="contactMessageLabel">お問い合わせ内容</label>
             <textarea id="contactMessage" name="message" rows="8" maxlength="1500" required placeholder="内容を具体的にご記入ください"></textarea>
-            <p id="contactPrivacyNote" class="placeholder-muted setting-note">個人情報・パスワード・APIキーなどは入力しないでください。このページは内容をサイトに保存・送信せず、ご利用のメールアプリに引き渡します。</p>
-            <p id="contactSendNote" class="placeholder-muted setting-note">「メールアプリを開く」を押すとメール作成画面が開きます。メールは自動送信されません。内容を確認して、ご自身で送信してください。</p>
-            <button type="submit" id="contactSubmit">メールアプリを開く</button>
+            <p id="contactPrivacyNote" class="placeholder-muted setting-note">パスワード、APIキー、機密情報などは入力しないでください。送信した内容は問い合わせ受付サービスFormspreeを通じて開発者へ届きます。</p>
+            <p id="contactSendNote" class="placeholder-muted setting-note">「送信する」を押すと内容が送信されます。メールアプリの起動は不要です。</p>
+            <button type="submit" id="contactSubmit">送信する</button>
           </form>
           <p id="contactStatus" class="setting-status" role="status" aria-live="polite"></p>
         </section>
       </main>
     </div>
   </div>
-  <script type="module" src="../js/contact.js?v=15"></script>
+  <script type="module" src="../js/contact.js?v=17"></script>
 </body>
 </html>
