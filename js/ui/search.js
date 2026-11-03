@@ -1,3 +1,4 @@
+import { t } from '../i18n/translations.js';
 export function createSearch(ctx) {
   const {
     commandListEl, commandSearchFormEl, commandSearchInputEl, commandSearchClearEl,
@@ -24,7 +25,7 @@ export function createSearch(ctx) {
     const visible = [...(commandListEl?.querySelectorAll?.('.command-link') ?? [])]
       .filter(link => !link.hidden);
     if (appliedQuery && notifyOnEmpty && visible.length === 0) {
-      openNotice(`「${appliedQuery}」に一致するコマンドが見つかりませんでした。絞り込み条件も確認してください。`);
+      openNotice(t('searchNoMatch')(appliedQuery));
     }
   }
 

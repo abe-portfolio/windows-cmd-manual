@@ -1,3 +1,6 @@
+import { getLanguage } from '../core/language.js';
+import { t, commandSummary } from '../i18n/translations.js';
+import { INTRO_EN } from '../i18n/intro-en.js';
 import { getCommandTags } from '../data/tags.js';
 import { filterVisibleCommands } from '../data/command-search.js';
 // Extracted from the original single-file CMD playground.
@@ -25,7 +28,7 @@ export function createSidebar(ctx) {
           button.classList.toggle('active', button.dataset.commandName === INTRO_PAGE);
         });
         commandDetailEl.dataset.commandName = INTRO_PAGE;
-        commandDetailEl.innerHTML = `
+        commandDetailEl.innerHTML = getLanguage() === 'en' ? INTRO_EN : `
           <div class="intro-content">
             <span class="command-tag tag-general">Windows CMD</span>
             <h2>そもそもコマンドプロンプトとは？</h2>
@@ -61,7 +64,7 @@ export function createSidebar(ctx) {
         introLink.className = 'command-link';
         introLink.dataset.commandName = INTRO_PAGE;
         introLink.dataset.tags = getCommandTags(INTRO_PAGE).join(' ');
-        introLink.innerHTML = '<span class="command-name">そもそもコマンドプロンプトとは？</span><span class="command-summary">初めての方向け・基本解説</span>';
+        introLink.innerHTML = `<span class="command-name">${t('introTitle')}</span><span class="command-summary">${t('introSummary')}</span>`;
         introLink.addEventListener('click', showIntroPage);
         commandListEl.appendChild(introLink);
         Object.values(commandCatalog).forEach((command) => {
@@ -70,8 +73,8 @@ export function createSidebar(ctx) {
           link.className = 'command-link';
           link.dataset.commandName = command.name;
           link.innerHTML = `
-            <span class="command-name">${command.name === 'redirect' ? 'リダイレクト' : command.name === 'pipe' ? 'パイプ' : displayCommandName(command.name)}</span>
-            <span class="command-summary">${command.summary}</span>
+            <span class="command-name">${command.name === 'redirect' && getLanguage() === 'ja' ? 'リダイレクト' : command.name === 'pipe' && getLanguage() === 'ja' ? 'パイプ' : displayCommandName(command.name)}</span>
+            <span class="command-summary">${commandSummary(command.name,command.summary)}</span>
           `;
           link.addEventListener('click', () => {
             state.history = [];
@@ -99,9 +102,9 @@ export function createSidebar(ctx) {
           const wrapper = document.createElement('div');
           wrapper.className = 'no-results';
           const heading = document.createElement('h2');
-          heading.textContent = '一致するコマンドがありません';
+          heading.textContent = t('noResults');
           const message = document.createElement('p');
-          message.textContent = '検索文字列とタグの絞り込み条件に一致するコマンドがありません。条件を変更するか解除してください。';
+          message.textContent = t('noResultsDesc');
           wrapper.append(heading, message);
           commandDetailEl.appendChild(wrapper);
           commandDetailPanelEl.classList.add('mobile-detail-visible');

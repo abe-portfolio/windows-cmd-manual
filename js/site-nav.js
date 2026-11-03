@@ -1,3 +1,5 @@
+import { getLanguage } from './core/language.js';
+import { t, tagText } from './i18n/translations.js';
 import { TAGS, getCommandTags, filterCommandNames } from './data/tags.js';
 // Independent menu for switching pages. No dynamic HTML injection is used.
 export function initSiteNav(doc = document) {
@@ -12,7 +14,7 @@ export function initSiteNav(doc = document) {
   const setOpen = (open) => {
     menu.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'ページメニューを閉じる' : 'ページメニューを開く');
+    toggle.setAttribute('aria-label', t(open ? 'menuClose' : 'menuOpen'));
   };
   toggle.addEventListener('click', () => setOpen(menu.hidden));
   // チップの選択状態はメモリ内だけで管理し、Cookie等に保存しない。
@@ -27,7 +29,7 @@ export function initSiteNav(doc = document) {
   const updatePreview = () => {
     if (countEl) {
       const all = ['intro', ...Object.keys(getAvailableCommands())];
-      countEl.textContent = `対象: ${filterCommandNames(all, selectedTags, mode).length} / ${all.length} 項目`;
+      countEl.textContent = t('filterCount')(filterCommandNames(all, selectedTags, mode).length, all.length);
     }
   };
   // ランタイムから利用可能なコマンド名のみ受け取り、画面へ任意HTMLを流し込まない。
@@ -47,7 +49,7 @@ export function initSiteNav(doc = document) {
     doc.dispatchEvent(new CustomEvent('cmdpg:filter-change', { detail }));
     if (activeEl) {
       activeEl.hidden = selectedTags.size === 0;
-      const text = selectedTags.size ? `絞り込み中（${mode === 'exclude' ? '除外' : '表示'}：${selectedTags.size}タグ）` : '';
+      const text = selectedTags.size ? t('filterStatus')(mode, selectedTags.size) : '';
       activeEl.textContent = text;
       activeEl.title = text;
       activeEl.setAttribute('aria-label', text ? `${text}。クリックして絞り込み条件を編集` : '');
@@ -59,7 +61,7 @@ export function initSiteNav(doc = document) {
       const chip = doc.createElement('button');
       chip.type = 'button';
       chip.className = `filter-chip ${def.className}`;
-      chip.textContent = def.label;
+      chip.textContent = tagText(id, getLanguage(), def.label);
       chip.setAttribute('aria-pressed', 'false');
       chip.dataset.tagId = id;
       chip.addEventListener('click', () => {

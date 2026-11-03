@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=13" />
+    <link rel="stylesheet" href="./css/style.css?v=14" />
   </head>
   <body>
     <div class="app">
@@ -13,14 +13,14 @@
         <div class="sidebar-heading">
           <div class="site-heading-group">
             <div class="site-nav" id="siteNav">
-              <button id="siteNavToggle" class="site-nav-toggle" type="button" aria-label="ページメニューを開く" aria-expanded="false" aria-controls="siteNavMenu" aria-haspopup="true">
+              <button id="siteNavToggle" class="site-nav-toggle" type="button" aria-label="ページメニューを開く" data-i18n-aria="menuOpen" aria-expanded="false" aria-controls="siteNavMenu" aria-haspopup="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                   <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
               <nav id="siteNavMenu" class="site-nav-menu" aria-label="ページメニュー" hidden>
-                <a href="./batch/">バッチファイル編</a>
-                <a href="./settings/">設定</a>
+                <a href="./batch/" data-i18n="batch">バッチファイル編</a>
+                <a href="./settings/" data-i18n="settings">設定</a>
               </nav>
             </div>
             <h1>Windows CMD</h1>
@@ -35,33 +35,33 @@
       </aside>
 
       <main class="main" id="mainContent">
-        <div class="main-toolbar" aria-label="検索と絞り込み">
+        <div class="main-toolbar" aria-label="検索と絞り込み" data-i18n-aria="searching">
           <form id="commandSearchForm" class="command-search" role="search">
             <div class="command-search-input-wrap">
-              <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" aria-label="コマンド名を検索。入力を消すと検索条件を解除" />
-              <button id="commandSearchClear" class="command-search-clear" type="button" aria-label="検索文字列をクリア" title="検索文字列をクリア" hidden>×</button>
+              <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" data-i18n-placeholder="searchPlaceholder" aria-label="コマンド名を検索。入力を消すと検索条件を解除" data-i18n-aria="searchPlaceholder" />
+              <button id="commandSearchClear" class="command-search-clear" type="button" aria-label="検索文字列をクリア" data-i18n-aria="clearSearch" title="検索文字列をクリア" hidden>×</button>
             </div>
-            <button id="commandSearchButton" type="submit">検索</button>
+            <button id="commandSearchButton" type="submit" data-i18n="search">検索</button>
           </form>
-          <button id="filterMenuButton" class="toolbar-filter-button" type="button" aria-haspopup="dialog" aria-controls="filterDialog">絞り込み</button>
+          <button id="filterMenuButton" class="toolbar-filter-button" type="button" aria-haspopup="dialog" aria-controls="filterDialog" data-i18n="filter">絞り込み</button>
           <button id="activeFilterIndicator" class="active-filter-indicator" type="button" hidden></button>
         </div>
 
         <section class="panel command-detail-panel" id="commandDetailPanel">
-          <div class="panel-header">コマンド詳細</div>
+          <div class="panel-header" data-i18n="commandDetail">コマンド詳細</div>
           <div id="commandDetail" class="detail"></div>
         </section>
 
         <section class="panel terminal-pane" id="terminalPane">
-          <div class="panel-header explorer-header"><span>擬似エクスプローラ</span><button type="button" id="resetButton" class="reset-button">↻ リセット</button></div>
+          <div class="panel-header explorer-header"><span data-i18n="virtualExplorer">擬似エクスプローラ</span><button type="button" id="resetButton" class="reset-button" data-i18n="reset">↻ リセット</button></div>
           <div class="explorer">
             <div id="currentPath" class="path">C:\WORK</div>
             <ul id="explorerTree" class="tree"></ul>
           </div>
           <div id="terminalOutput" class="terminal-output" aria-live="polite"></div>
           <form id="terminalForm" class="terminal-form">
-            <input id="terminalInput" type="text" autocomplete="off" spellcheck="false" placeholder="コマンドを入力" />
-            <button type="submit">実行</button>
+            <input id="terminalInput" type="text" autocomplete="off" spellcheck="false" placeholder="コマンドを入力" data-i18n-placeholder="terminalPlaceholder" />
+            <button type="submit" data-i18n="run">実行</button>
           </form>
         </section>
       </main>
@@ -69,22 +69,22 @@
 
     <dialog id="filterDialog" class="filter-dialog" aria-labelledby="filterDialogTitle" aria-describedby="filterDialogDescription">
       <div class="filter-dialog-header">
-        <h2 id="filterDialogTitle">コマンドの絞り込み</h2>
+        <h2 id="filterDialogTitle" data-i18n="filterTitle">コマンドの絞り込み</h2>
         <button id="filterDialogClose" class="filter-dialog-close" type="button" aria-label="絞り込みを閉じる">×</button>
       </div>
-      <p id="filterDialogDescription">タグを複数選択できます。通常検索はOR条件、除外検索では選択タグのいずれかを含むコマンドを除外します。</p>
+      <p id="filterDialogDescription" data-i18n="filterDesc">タグを複数選択できます。通常検索はOR条件、除外検索では選択タグのいずれかを含むコマンドを除外します。</p>
       <fieldset class="filter-mode-group">
-        <legend>検索方式（同時指定不可）</legend>
-        <label><input type="radio" name="filterMode" value="include" checked /> 一致するコマンドを表示</label>
-        <label><input type="radio" name="filterMode" value="exclude" /> 選択タグを除外</label>
+        <legend data-i18n="filterMode">検索方式（同時指定不可）</legend>
+        <label><input type="radio" name="filterMode" value="include" checked /> <span data-i18n="include">一致するコマンドを表示</span></label>
+        <label><input type="radio" name="filterMode" value="exclude" /> <span data-i18n="exclude">選択タグを除外</span></label>
       </fieldset>
-      <div class="filter-tag-heading">タグを選択</div>
+      <div class="filter-tag-heading" data-i18n="chooseTags">タグを選択</div>
       <div id="filterTagChoices" class="filter-tag-choices" role="group" aria-label="検索タグ"></div>
       <p id="filterResultCount" class="filter-dialog-note" role="status">タグ未選択時は全コマンドを表示します。</p>
       <div class="filter-dialog-actions">
-        <button id="filterClearButton" type="button">フィルター解除</button>
-        <button id="filterApplyButton" type="button">適用して閉じる</button>
-        <button id="filterDialogDone" type="button">閉じる</button>
+        <button id="filterClearButton" type="button" data-i18n="clearFilter">フィルター解除</button>
+        <button id="filterApplyButton" type="button" data-i18n="applyClose">適用して閉じる</button>
+        <button id="filterDialogDone" type="button" data-i18n="close">閉じる</button>
       </div>
     </dialog>
 
@@ -92,16 +92,17 @@
 
     <dialog id="searchNoticeDialog" class="filter-dialog search-notice-dialog" aria-labelledby="searchNoticeTitle" aria-describedby="searchNoticeText">
       <div class="filter-dialog-header">
-        <h2 id="searchNoticeTitle">検索結果</h2>
+        <h2 id="searchNoticeTitle" data-i18n="searchResults">検索結果</h2>
         <button id="searchNoticeClose" class="filter-dialog-close" type="button" aria-label="検索結果を閉じる">×</button>
       </div>
-      <p id="searchNoticeText" class="filter-dialog-note">一致するコマンドが見つかりませんでした。</p>
+      <p id="searchNoticeText" class="filter-dialog-note" data-i18n="noResults">一致するコマンドが見つかりませんでした。</p>
       <div class="filter-dialog-actions">
-        <button id="searchNoticeDone" type="button">閉じる</button>
+        <button id="searchNoticeDone" type="button" data-i18n="close">閉じる</button>
       </div>
     </dialog>
 
-    <script type="module" src="./js/site-nav.js?v=13"></script>
-    <script type="module" src="./js/main.js?v=13"></script>
+    <script type="module" src="./js/i18n/bootstrap.js?v=14"></script>
+    <script type="module" src="./js/site-nav.js?v=14"></script>
+    <script type="module" src="./js/main.js?v=14"></script>
   </body>
 </html>

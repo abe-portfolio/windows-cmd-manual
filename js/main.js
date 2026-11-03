@@ -1,3 +1,4 @@
+import { t } from './i18n/translations.js';
 import { commandCatalog } from './data/commands.js';
 import { commandNameOrigins } from './data/origins.js';
 import { initialState, commandAliases, displayCommandName } from './core/state.js';
@@ -59,7 +60,7 @@ function init() {
         renderExplorer();
         showIntroPage();
         initCommandSearch();
-        writeTerminalLine('Windows CMD シミュレータを起動しました。');
+        writeTerminalLine(t('ready'));
         writeTerminalLine('例: echo Hello > hello.txt / type hello.txt | find \"Hello\" / ping localhost / find "ERROR" notes.txt / findstr /s "INFO" *.txt / where /r C:\\WORK *.txt');
         writeTerminalLine('');
         writeTerminalLine(`${state.currentPath}>`);

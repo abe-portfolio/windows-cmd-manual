@@ -1,3 +1,5 @@
+import { t } from '../i18n/translations.js';
+import { getLanguage } from '../core/language.js';
 import { shouldConfirmReset } from '../core/preferences.js';
 // Extracted from the original single-file CMD playground.
 export function createTerminal(ctx) {
@@ -128,7 +130,7 @@ export function createTerminal(ctx) {
 
       document.getElementById('resetButton').addEventListener('click', () => {
         if (shouldConfirmReset(document) &&
-            !globalThis.confirm('疑似エクスプローラーを初期状態に戻します。作成・変更した仮想ファイルやコマンド履歴は失われます。よろしいですか？')) {
+            !globalThis.confirm(t('resetQuestion'))) {
           return;
         }
         Object.assign(state, initialState());
@@ -136,7 +138,7 @@ export function createTerminal(ctx) {
         clearTerminal();
         terminalInputEl.value = '';
         renderExplorer();
-        writeTerminalLine('Windows CMD シミュレータをリセットしました。');
+        writeTerminalLine(getLanguage() === 'en' ? 'Windows CMD simulator reset.' : 'Windows CMD シミュレータをリセットしました。');
         writeTerminalLine(`${state.currentPath}>`);
       });
 

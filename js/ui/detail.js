@@ -1,8 +1,12 @@
+import { getLanguage } from '../core/language.js';
+import { t, commandDescription, tagText } from '../i18n/translations.js';
+import { OPTIONS_EN } from '../i18n/help-en.js';
 import { getCommandTags, TAGS } from '../data/tags.js';
 // Extracted from the original single-file CMD playground.
 export function createDetail(ctx) {
   const { commandCatalog, commandDetailEl, commandNameOrigins, displayCommandName, escapeHtml, mainContentEl } = ctx;
       function renderCommandDetail(commandName) {
+        const lang = getLanguage();
         const command = commandCatalog[commandName];
         if (!command) return;
         mainContentEl.classList.remove('intro-mode');
@@ -13,17 +17,17 @@ export function createDetail(ctx) {
 
         commandDetailEl.dataset.commandName = commandName;
         commandDetailEl.innerHTML = `
-          <div class="command-tags">${getCommandTags(commandName).map(tag => `<span class="command-tag ${TAGS[tag].className}">${TAGS[tag].label}</span>`).join('')}</div>
+          <div class="command-tags">${getCommandTags(commandName).map(tag => `<span class="command-tag ${TAGS[tag].className}">${tagText(tag, lang, TAGS[tag].label)}</span>`).join('')}</div>
           <h2>${displayCommandName(command.name)}</h2>
           <div class="syntax">${command.syntax}</div>
-          <p>${command.description}</p>
-          ${commandNameOrigins[commandName] ? `<p class="command-origin"><strong>名前の由来：</strong>${escapeHtml(commandNameOrigins[commandName])}</p>` : ''}
-          ${command.scenarios ? `<h3>学習用シナリオ</h3><ul class="option-list">${command.scenarios.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}
-          <h3>オプション</h3>
+          <p>${commandDescription(commandName, command.description, lang)}</p>
+          ${lang === 'ja' && commandNameOrigins[commandName] ? `<p class="command-origin"><strong>${t('origin',lang)}</strong>${escapeHtml(commandNameOrigins[commandName])}</p>` : ''}
+          ${lang === 'ja' && command.scenarios ? `<h3>${t('scenarios',lang)}</h3><ul class="option-list">${command.scenarios.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}
+          <h3>${t('options',lang)}</h3>
           <ul class="option-list">
-            ${command.options.length ? command.options.map((option) => `<li>${option}</li>`).join('') : '<li>オプションなし</li>'}
+            ${(lang === 'en' ? OPTIONS_EN[commandName] ?? [] : command.options).length ? (lang === 'en' ? OPTIONS_EN[commandName] ?? [] : command.options).map((option) => `<li>${option}</li>`).join('') : `<li>${t('noOptions', lang)}</li>`}
           </ul>
-          ${command.examples ? `<h3>実行例</h3>${command.examples.map((example, index) => `<div class="command-example"><div class="example-copy-row"><div class="syntax">${escapeHtml(example.code)}</div><button type="button" class="copy-command-button" data-example-index="${index}" aria-label="コマンドをコピー: ${escapeHtml(example.code)}">コピー</button></div><p>${escapeHtml(example.note)}</p></div>`).join('')}` : ''}
+          ${command.examples ? `<h3>${t('examples',lang)}</h3>${command.examples.map((example, index) => `<div class="command-example"><div class="example-copy-row"><div class="syntax">${escapeHtml(example.code)}</div><button type="button" class="copy-command-button" data-example-index="${index}" aria-label="コマンドをコピー: ${escapeHtml(example.code)}">${t('copy',lang)}</button></div>${lang === 'ja' ? `<p>${escapeHtml(example.note)}</p>` : ''}</div>`).join('')}` : ''}
         `;
       }
 
@@ -55,14 +59,14 @@ export function createDetail(ctx) {
               input.remove();
             }
           }
-          button.textContent = 'コピー済み';
+          button.textContent = t('copied');
         } catch (error) {
-          button.textContent = 'コピー失敗';
+          button.textContent = t('copyFailed');
           console.warn('コマンドのコピーに失敗しました:', error);
         }
         setTimeout(() => {
           if (button.isConnected) {
-            button.textContent = 'コピー';
+            button.textContent = t('copy');
             button.disabled = false;
           }
         }, 1400);

@@ -1,3 +1,4 @@
+import { t } from '../i18n/translations.js';
 import { filterCommandNames } from './tags.js';
 
 export function matchesCommandQuery(name, query, displayCommandName) {
@@ -5,7 +6,7 @@ export function matchesCommandQuery(name, query, displayCommandName) {
   if (!normalized) return true;
   // Search command titles and aliases only, not descriptions or tag text.
   const title = name === 'intro'
-    ? 'そもそもコマンドプロンプトとは？'
+    ? t('introTitle')
     : displayCommandName(name);
   return title.toLocaleLowerCase().includes(normalized);
 }
