@@ -519,3 +519,8 @@
   .main-toolbar { flex-direction: column; align-items: stretch; }
   .command-search, .active-filter-indicator { width: 100%; max-width: none; flex: 1 1 auto; }
 }
+
+/* v10: empty search/filter state inside the command detail panel. */
+.no-results { padding: 22px 4px; max-width: 630px; }
+.no-results h2 { color: var(--text); font-size: 1.22rem; margin: 0 0 14px; }
+.no-results p { color: var(--muted); line-height: 1.8; margin: 0; }

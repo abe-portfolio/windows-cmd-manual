@@ -88,14 +88,48 @@ export function createSidebar(ctx) {
         let activeTags = [];
         let activeMode = 'include';
         let activeSearch = '';
+        let showingNoResults = false;
+        let lastSelectedCommand = INTRO_PAGE;
+        const showNoResults = () => {
+          // Use textContent, not HTML interpolation, even if the search term is user supplied.
+          mainContentEl.classList.remove('intro-mode');
+          commandDetailEl.dataset.commandName = '';
+          commandDetailEl.replaceChildren();
+          const wrapper = document.createElement('div');
+          wrapper.className = 'no-results';
+          const heading = document.createElement('h2');
+          heading.textContent = '一致するコマンドがありません';
+          const message = document.createElement('p');
+          message.textContent = '検索文字列とタグの絞り込み条件に一致するコマンドがありません。条件を変更するか解除してください。';
+          wrapper.append(heading, message);
+          commandDetailEl.appendChild(wrapper);
+          commandDetailPanelEl.classList.add('mobile-detail-visible');
+          document.querySelectorAll('.command-link').forEach(link => link.classList.remove('active'));
+        };
         const updateVisibleCommands = () => {
-          const visible = new Set(filterVisibleCommands(
+          const names = filterVisibleCommands(
             [INTRO_PAGE, ...Object.keys(commandCatalog)], activeSearch, activeTags,
             activeMode, displayCommandName
-          ));
+          );
+          const visible = new Set(names);
           commandListEl.querySelectorAll('.command-link').forEach(link => {
             link.hidden = !visible.has(link.dataset.commandName);
           });
+          if (names.length === 0) {
+            if (!showingNoResults) {
+              lastSelectedCommand = commandDetailEl.dataset.commandName || INTRO_PAGE;
+            }
+            showingNoResults = true;
+            showNoResults();
+            return;
+          }
+          if (showingNoResults || !visible.has(commandDetailEl.dataset.commandName)) {
+            showingNoResults = false;
+            const next = visible.has(lastSelectedCommand) ? lastSelectedCommand : names[0];
+            if (next === INTRO_PAGE) showIntroPage();
+            else renderCommandDetail(next);
+            commandDetailPanelEl.classList.add('mobile-detail-visible');
+          }
         };
         document.addEventListener('cmdpg:filter-change', (event) => {
           activeTags = Array.isArray(event.detail?.tags) ? event.detail.tags : [];
