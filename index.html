@@ -11,7 +11,20 @@
     <div class="app">
       <aside class="sidebar" id="commandSidebar">
         <div class="sidebar-heading">
-          <h1>Windows CMD</h1>
+          <div class="site-heading-group">
+            <div class="site-nav" id="siteNav">
+              <button id="siteNavToggle" class="site-nav-toggle" type="button" aria-label="ページメニューを開く" aria-expanded="false" aria-controls="siteNavMenu" aria-haspopup="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <nav id="siteNavMenu" class="site-nav-menu" aria-label="ページメニュー" hidden>
+                <a href="./batch/">バッチファイル編</a>
+                <a href="./settings/">設定</a>
+              </nav>
+            </div>
+            <h1>Windows CMD</h1>
+          </div>
           <button id="menuToggle" class="menu-toggle" type="button" aria-label="コマンド一覧を開く" aria-expanded="false" aria-controls="commandList">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
               <path d="M4 6h16M4 12h16M4 18h16" />
@@ -42,6 +55,7 @@
       </main>
     </div>
 
+    <script type="module" src="./js/site-nav.js"></script>
     <script type="module" src="./js/main.js"></script>
   </body>
 </html>

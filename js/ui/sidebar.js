@@ -26,7 +26,6 @@ export function createSidebar(ctx) {
         commandDetailEl.innerHTML = `
           <div class="intro-content">
             <span class="badge">はじめに</span>
-            <div><a class="batch-page-link" href="./batch/">バッチファイル編へ →</a></div>
             <h2>そもそもコマンドプロンプトとは？</h2>
             <p><strong>コマンドプロンプト（Command Prompt）</strong>は、Windowsに標準搭載されている、文字を入力してパソコンを操作するためのツールです。「CMD（シーエムディー）」とも呼ばれます。</p>
             <p>普段はエクスプローラーをマウスで操作してフォルダを開いたりファイルをコピーしたりしますが、コマンドプロンプトでは同じような操作を<strong>コマンド（命令文）</strong>で実行できます。</p>
