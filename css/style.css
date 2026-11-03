@@ -579,3 +579,87 @@
   .toolbar-filter-button { flex:0 0 112px; }
   .active-filter-indicator { flex: 0 1 340px; width:min(100%,340px); }
 }
+
+
+/* v12: a pinned sidebar heading with independently scrollable command entries. */
+@media (min-width: 961px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-heading {
+    flex: 0 0 auto;
+  }
+  .sidebar .command-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+}
+/* Keep the same header visible on narrow screens while the document scrolls. */
+@media (max-width: 960px) {
+  .sidebar-heading {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 6px 0 12px;
+    background: #0f172a;
+  }
+}
+
+/* v12: slightly lower toolbar height without shrinking the tap target for clear. */
+.main-toolbar { min-height: 38px; }
+.command-search-input-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.command-search-input-wrap input {
+  width: 100%;
+  height: 38px;
+  min-height: 38px;
+  padding-right: 44px;
+}
+/* Hide native X so a larger, consistent clear target is available. */
+.command-search-input-wrap input::-webkit-search-cancel-button,
+.command-search-input-wrap input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.command-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(148,163,184,.16);
+  border: 0;
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+.command-search-clear[hidden] { display: none !important; }
+.command-search-clear:hover { background: rgba(148,163,184,.30); }
+.command-search-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.command-search button[type="submit"],
+.toolbar-filter-button,
+.active-filter-indicator {
+  height: 38px;
+  min-height: 38px;
+  border-radius: 10px;
+}
+.active-filter-indicator {
+  line-height: 36px;
+}

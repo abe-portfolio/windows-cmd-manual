@@ -29,6 +29,7 @@ const ctx = {
   mainContentEl: document.getElementById('mainContent'),
   commandSearchFormEl: document.getElementById('commandSearchForm'),
   commandSearchInputEl: document.getElementById('commandSearchInput'),
+  commandSearchClearEl: document.getElementById('commandSearchClear'),
   activeFilterIndicatorEl: document.getElementById('activeFilterIndicator'),
   searchNoticeDialogEl: document.getElementById('searchNoticeDialog'),
   searchNoticeTextEl: document.getElementById('searchNoticeText'),

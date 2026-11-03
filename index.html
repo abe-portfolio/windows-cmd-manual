@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=11" />
+    <link rel="stylesheet" href="./css/style.css?v=12" />
   </head>
   <body>
     <div class="app">
@@ -37,7 +37,10 @@
       <main class="main" id="mainContent">
         <div class="main-toolbar" aria-label="検索と絞り込み">
           <form id="commandSearchForm" class="command-search" role="search">
-            <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" aria-label="コマンド名を検索。入力を消すと検索条件を解除" />
+            <div class="command-search-input-wrap">
+              <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" aria-label="コマンド名を検索。入力を消すと検索条件を解除" />
+              <button id="commandSearchClear" class="command-search-clear" type="button" aria-label="検索文字列をクリア" title="検索文字列をクリア" hidden>×</button>
+            </div>
             <button id="commandSearchButton" type="submit">検索</button>
           </form>
           <button id="filterMenuButton" class="toolbar-filter-button" type="button" aria-haspopup="dialog" aria-controls="filterDialog">絞り込み</button>
@@ -98,7 +101,7 @@
       </div>
     </dialog>
 
-    <script type="module" src="./js/site-nav.js?v=11"></script>
-    <script type="module" src="./js/main.js?v=11"></script>
+    <script type="module" src="./js/site-nav.js?v=12"></script>
+    <script type="module" src="./js/main.js?v=12"></script>
   </body>
 </html>

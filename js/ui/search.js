@@ -1,6 +1,6 @@
 export function createSearch(ctx) {
   const {
-    commandListEl, commandSearchFormEl, commandSearchInputEl,
+    commandListEl, commandSearchFormEl, commandSearchInputEl, commandSearchClearEl,
     searchNoticeDialogEl, searchNoticeTextEl, searchNoticeCloseEl, searchNoticeDoneEl
   } = ctx;
   let appliedQuery = '';
@@ -36,16 +36,31 @@ export function createSearch(ctx) {
   // For <input type="search">, Chrome/Edge/Safari emit input/search
   // when the native clear (×) is pressed. Only clearing affects the list
   // immediately; nonempty values are applied with the Search button/Enter.
+  function syncClearButton() {
+    if (commandSearchClearEl) commandSearchClearEl.hidden = !commandSearchInputEl?.value;
+  }
+
   function handleClearing() {
+    syncClearButton();
     if (commandSearchInputEl?.value === '' && appliedQuery) {
       applyQuery('', false);
     }
+  }
+
+  function clearSearch() {
+    if (!commandSearchInputEl) return;
+    commandSearchInputEl.value = '';
+    syncClearButton();
+    applyQuery('', false);
+    commandSearchInputEl.focus();
   }
 
   function initCommandSearch() {
     commandSearchFormEl?.addEventListener('submit', handleSubmit);
     commandSearchInputEl?.addEventListener('input', handleClearing);
     commandSearchInputEl?.addEventListener('search', handleClearing);
+    commandSearchClearEl?.addEventListener('click', clearSearch);
+    syncClearButton();
     searchNoticeCloseEl?.addEventListener('click', closeNotice);
     searchNoticeDoneEl?.addEventListener('click', closeNotice);
   }
