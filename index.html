@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windows CMD Manual</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="commandSidebar">
+        <div class="sidebar-heading">
+          <h1>Windows CMD</h1>
+          <button id="menuToggle" class="menu-toggle" type="button" aria-label="コマンド一覧を開く" aria-expanded="false" aria-controls="commandList">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        <nav id="commandList" class="command-list" aria-label="コマンド一覧"></nav>
+      </aside>
+
+      <main class="main" id="mainContent">
+        <section class="panel command-detail-panel" id="commandDetailPanel">
+          <div class="panel-header">コマンド詳細</div>
+          <div id="commandDetail" class="detail"></div>
+        </section>
+
+        <section class="panel terminal-pane">
+          <div class="panel-header explorer-header"><span>擬似エクスプローラ</span><button type="button" id="resetButton" class="reset-button">↻ リセット</button></div>
+          <div class="explorer">
+            <div id="currentPath" class="path">C:\WORK</div>
+            <ul id="explorerTree" class="tree"></ul>
+          </div>
+          <div id="terminalOutput" class="terminal-output" aria-live="polite"></div>
+          <form id="terminalForm" class="terminal-form">
+            <input id="terminalInput" type="text" autocomplete="off" spellcheck="false" placeholder="コマンドを入力" />
+            <button type="submit">実行</button>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
