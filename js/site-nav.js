@@ -26,8 +26,8 @@ export function initSiteNav(doc = document) {
   const activeEl = doc.getElementById('activeFilterIndicator');
   const updatePreview = () => {
     if (countEl) {
-      const all = Object.keys(getAvailableCommands());
-      countEl.textContent = `対象: ${filterCommandNames(all, selectedTags, mode).length} / ${all.length} コマンド`;
+      const all = ['intro', ...Object.keys(getAvailableCommands())];
+      countEl.textContent = `対象: ${filterCommandNames(all, selectedTags, mode).length} / ${all.length} 項目`;
     }
   };
   // ランタイムから利用可能なコマンド名のみ受け取り、画面へ任意HTMLを流し込まない。

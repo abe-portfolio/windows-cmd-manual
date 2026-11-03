@@ -26,7 +26,7 @@ export function createSidebar(ctx) {
         commandDetailEl.dataset.commandName = INTRO_PAGE;
         commandDetailEl.innerHTML = `
           <div class="intro-content">
-            <span class="badge">はじめに</span>
+            <span class="command-tag tag-general">Windows CMD</span>
             <h2>そもそもコマンドプロンプトとは？</h2>
             <p><strong>コマンドプロンプト（Command Prompt）</strong>は、Windowsに標準搭載されている、文字を入力してパソコンを操作するためのツールです。「CMD（シーエムディー）」とも呼ばれます。</p>
             <p>普段はエクスプローラーをマウスで操作してフォルダを開いたりファイルをコピーしたりしますが、コマンドプロンプトでは同じような操作を<strong>コマンド（命令文）</strong>で実行できます。</p>
@@ -59,6 +59,7 @@ export function createSidebar(ctx) {
         introLink.type = 'button';
         introLink.className = 'command-link';
         introLink.dataset.commandName = INTRO_PAGE;
+        introLink.dataset.tags = getCommandTags(INTRO_PAGE).join(' ');
         introLink.innerHTML = '<span class="command-name">そもそもコマンドプロンプトとは？</span><span class="command-summary">初めての方向け・基本解説</span>';
         introLink.addEventListener('click', showIntroPage);
         commandListEl.appendChild(introLink);
@@ -86,11 +87,11 @@ export function createSidebar(ctx) {
         document.addEventListener('cmdpg:filter-change', (event) => {
           const selected = new Set(event.detail?.tags ?? []);
           const mode = event.detail?.mode === 'exclude' ? 'exclude' : 'include';
-          const visible = new Set(filterCommandNames(Object.keys(commandCatalog), selected, mode));
+          const visible = new Set(filterCommandNames([INTRO_PAGE, ...Object.keys(commandCatalog)], selected, mode));
           commandListEl.querySelectorAll('.command-link').forEach(link => {
             const name = link.dataset.commandName;
-            // 「はじめに」は絞り込みとは無関係なので常に表示。
-            link.hidden = name !== INTRO_PAGE && !visible.has(name);
+            // はじめにもWindows CMDタグを持ち、ほかのコマンドと同じ条件で絞り込む。
+            link.hidden = !visible.has(name);
           });
         });
       }

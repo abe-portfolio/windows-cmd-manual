@@ -12,6 +12,7 @@ export const TAGS = Object.freeze({
 });
 
 const CLASSIFICATIONS = Object.freeze({
+  intro: ['general'],
   mkdir: ['file', 'directory'],
   dir: ['file', 'directory'],
   cd: ['directory'],
