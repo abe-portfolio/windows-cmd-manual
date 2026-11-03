@@ -1,3 +1,4 @@
+import { shouldConfirmReset } from '../core/preferences.js';
 // Extracted from the original single-file CMD playground.
 export function createTerminal(ctx) {
   const { commandAliases, commandCatalog, initialState, state, terminalFormEl, terminalInputEl, terminalOutputEl } = ctx;
@@ -126,6 +127,10 @@ export function createTerminal(ctx) {
       terminalInputEl.addEventListener('input', () => { completion = null; });
 
       document.getElementById('resetButton').addEventListener('click', () => {
+        if (shouldConfirmReset(document) &&
+            !globalThis.confirm('疑似エクスプローラーを初期状態に戻します。作成・変更した仮想ファイルやコマンド履歴は失われます。よろしいですか？')) {
+          return;
+        }
         Object.assign(state, initialState());
         resetInputNavigation(true);
         clearTerminal();

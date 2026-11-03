@@ -377,3 +377,14 @@
 .site-nav-toggle svg { width:24px; height:24px; }
 .site-nav-menu { top:calc(100% + 8px); left:0; }
 .site-heading-group h1 { margin:0; }
+
+/* Settings: keyboard-accessible native checkbox, no inline scripts. */
+.setting-section { max-width: 760px; }
+.setting-section h3 { color: var(--accent); margin: 22px 0 16px; }
+.setting-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px; background: rgba(15,23,42,.65); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.setting-toggle-copy { display: flex; flex-direction: column; gap: 8px; line-height: 1.6; }
+.setting-toggle-copy strong { font-size: 1rem; }
+.setting-toggle-row input[type=checkbox] { flex-shrink: 0; width: 24px; height: 24px; accent-color: var(--accent); cursor: pointer; }
+.setting-toggle-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.setting-status { color: var(--accent-2); min-height: 1.5em; }
+.setting-note { font-size: .87rem; line-height: 1.7; }
