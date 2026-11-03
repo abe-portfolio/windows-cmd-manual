@@ -3,7 +3,7 @@ import { getLanguage } from '../core/language.js';
 export const UI = Object.freeze({
   ja: {
     menuOpen:'ページメニューを開く',menuClose:'ページメニューを閉じる', batch:'バッチファイル編',settings:'設定',contact:'お問い合わせ', back:'← CMD編に戻る',
-    settingsSubtitle:'CMDプレイグラウンドの動作設定', explorer:'疑似エクスプローラー', resetConfirm:'リセット時に確認ダイアログを表示する',
+    settingsSubtitle:'動作設定', explorer:'疑似エクスプローラー', resetConfirm:'リセット時に確認ダイアログを表示する',
     resetDesc:'ONの場合、リセット実行前に確認します。キャンセルするとデータは初期化されません。',
     cookieNote:'初期値はONです。設定はセッションCookieに保存されます（ブラウザのセッション復元によって残る場合があります）。',
     language:'表示言語', languageDesc:'画面の表示言語を選択します。選択しただけでは変更されず、「適用」を押すと反映されます。',
@@ -23,7 +23,7 @@ export const UI = Object.freeze({
   },
   en: {
     menuOpen:'Open page menu',menuClose:'Close page menu',batch:'Batch File Tutorial',settings:'Settings',contact:'Contact the developer',back:'← Back to CMD',
-    settingsSubtitle:'CMD playground preferences', explorer:'Virtual File Explorer', resetConfirm:'Show a confirmation dialog before resetting',
+    settingsSubtitle:'Operation settings', explorer:'Virtual File Explorer', resetConfirm:'Show a confirmation dialog before resetting',
     resetDesc:'When enabled, confirm before resetting. Canceling the dialog preserves the virtual files.',
     cookieNote:'Confirmation defaults to ON. Settings are stored in session cookies (browser session restore may retain them).',
     language:'Display language', languageDesc:'Choose a display language. The selection is not applied until you click Apply.',

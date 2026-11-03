@@ -688,7 +688,7 @@
 .language-section { margin-top: 30px; border-top: 1px solid var(--line); padding-top: 6px; }
 .language-section .placeholder-muted { line-height: 1.7; }
 .language-select-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
-.language-select-row select { min-width: min(100%, 245px); min-height: 44px; border: 1px solid var(--line); background: #0f172a; color: var(--text); border-radius: 10px; padding: 8px 12px; font: inherit; }
+.language-select-row select { min-width: min(100%, 245px); min-height: 44px; border: 1px solid var(--line); background: #0f172a; color: var(--text); border-radius: 10px; padding: 8px 42px 8px 12px; font: inherit; background-position: right 16px center; }
 .language-select-row button { min-height: 44px; padding: 8px 22px; border-radius: 10px; border: 1px solid var(--accent); background: #2563eb; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
 .language-select-row button:disabled { opacity: .45; cursor: not-allowed; }
 .language-select-row select:focus-visible, .language-select-row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
