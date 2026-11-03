@@ -460,10 +460,62 @@
 .filter-tag-heading { font-weight:700; margin:16px 0 10px; }
 .filter-tag-choices { padding:5px 3px; }
 .filter-dialog-note { font-size:.87rem; }
-.active-filter-indicator { margin: 12px 0; padding:8px 10px; border:1px solid #60a5fa; border-radius:8px; color:#93c5fd; font-size:.8rem; }
+.active-filter-indicator { display:inline-flex; align-items:center; justify-content:flex-start; width:min(100%, 340px); min-height:44px; padding:0 16px; border:1px solid #60a5fa; border-radius:12px; background:rgba(15,23,42,.55); color:#93c5fd; font-size:.92rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; }
 .active-filter-indicator[hidden], .command-link[hidden] {display:none!important;}
 @media (max-width: 480px) {.filter-dialog {padding:16px;} .filter-mode-group label {font-size:.9rem;}}
 
 /* v7: visible spacing between the site header and command list. */
 .sidebar-heading { margin-bottom: 18px; }
 .command-list .command-link[hidden] { display: none !important; }
+
+
+/* v8: search bar and moved filter summary above the panels. */
+.main-toolbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.command-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(100%, 420px);
+  flex: 0 1 420px;
+}
+.command-search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.92);
+  color: var(--text);
+  font: inherit;
+}
+.command-search input::placeholder { color: var(--muted); }
+.command-search input:focus-visible,
+.active-filter-indicator:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.command-search button {
+  flex: 0 0 88px;
+  min-height: 44px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: rgba(96,165,250,.15);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.command-search button:hover,
+.active-filter-indicator:hover { background: rgba(96,165,250,.18); }
+.search-notice-dialog { width: min(420px, calc(100% - 32px)); }
+@media (max-width: 960px) {
+  .main-toolbar { gap: 12px; }
+}
+@media (max-width: 700px) {
+  .main-toolbar { flex-direction: column; align-items: stretch; }
+  .command-search, .active-filter-indicator { width: 100%; max-width: none; flex: 1 1 auto; }
+}

@@ -9,6 +9,7 @@ import { createSidebar } from './ui/sidebar.js';
 import { createDetail } from './ui/detail.js';
 import { createExplorer } from './ui/explorer.js';
 import { createTerminal } from './ui/terminal.js';
+import { createSearch } from './ui/search.js';
 
 // Shared application context: dependencies are explicit and testable.
 // Commands operate solely on the virtual filesystem, not the host PC.
@@ -26,6 +27,13 @@ const ctx = {
   currentPathEl: document.getElementById('currentPath'),
   terminalFormEl: document.getElementById('terminalForm'),
   mainContentEl: document.getElementById('mainContent'),
+  commandSearchFormEl: document.getElementById('commandSearchForm'),
+  commandSearchInputEl: document.getElementById('commandSearchInput'),
+  activeFilterIndicatorEl: document.getElementById('activeFilterIndicator'),
+  searchNoticeDialogEl: document.getElementById('searchNoticeDialog'),
+  searchNoticeTextEl: document.getElementById('searchNoticeText'),
+  searchNoticeCloseEl: document.getElementById('searchNoticeClose'),
+  searchNoticeDoneEl: document.getElementById('searchNoticeDone'),
 };
 Object.assign(ctx, createParser(ctx));
 Object.assign(ctx, createFilesystem(ctx));
@@ -34,12 +42,14 @@ Object.assign(ctx, createSidebar(ctx));
 Object.assign(ctx, createDetail(ctx));
 Object.assign(ctx, createExplorer(ctx));
 Object.assign(ctx, createTerminal(ctx));
+Object.assign(ctx, createSearch(ctx));
 
 
 const initCommandList = (...args) => ctx.initCommandList(...args);
 const renderExplorer = (...args) => ctx.renderExplorer(...args);
 const showIntroPage = (...args) => ctx.showIntroPage(...args);
 const writeTerminalLine = (...args) => ctx.writeTerminalLine(...args);
+const initCommandSearch = (...args) => ctx.initCommandSearch(...args);
 
 const state = ctx.state;
 function init() {
@@ -47,6 +57,7 @@ function init() {
         document.dispatchEvent(new CustomEvent('cmdpg:commands-ready', { detail: { commandNames: Object.keys(commandCatalog) } }));
         renderExplorer();
         showIntroPage();
+        initCommandSearch();
         writeTerminalLine('Windows CMD シミュレータを起動しました。');
         writeTerminalLine('例: echo Hello > hello.txt / type hello.txt | find \"Hello\" / ping localhost / find "ERROR" notes.txt / findstr /s "INFO" *.txt / where /r C:\\WORK *.txt');
         writeTerminalLine('');

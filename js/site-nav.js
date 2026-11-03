@@ -37,12 +37,20 @@ export function initSiteNav(doc = document) {
     commandNames = Array.isArray(event.detail?.commandNames) ? event.detail.commandNames : [];
     updatePreview();
   });
+  const openFilterDialog = () => {
+    setOpen(false);
+    updatePreview();
+    if (!filterDialog?.open) filterDialog.showModal();
+  };
   const notify = () => {
     const detail = { tags: [...selectedTags], mode };
     doc.dispatchEvent(new CustomEvent('cmdpg:filter-change', { detail }));
     if (activeEl) {
       activeEl.hidden = selectedTags.size === 0;
-      activeEl.textContent = selectedTags.size ? `絞り込み中（${mode === 'exclude' ? '除外' : '表示'}：${selectedTags.size}タグ）` : '';
+      const text = selectedTags.size ? `絞り込み中（${mode === 'exclude' ? '除外' : '表示'}：${selectedTags.size}タグ）` : '';
+      activeEl.textContent = text;
+      activeEl.title = text;
+      activeEl.setAttribute('aria-label', text ? `${text}。クリックして絞り込み条件を編集` : '');
     }
     updatePreview();
   };
@@ -81,11 +89,8 @@ export function initSiteNav(doc = document) {
     toggle.focus();
   });
   if (filterButton && filterDialog) {
-    filterButton.addEventListener('click', () => {
-      setOpen(false);
-      updatePreview();
-      if (!filterDialog.open) filterDialog.showModal();
-    });
+    filterButton.addEventListener('click', openFilterDialog);
+    activeEl?.addEventListener('click', openFilterDialog);
     const closeDialog = () => {
       if (filterDialog.open) filterDialog.close();
       toggle.focus();

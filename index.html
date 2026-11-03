@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=7" />
+    <link rel="stylesheet" href="./css/style.css?v=8" />
   </head>
   <body>
     <div class="app">
@@ -32,11 +32,18 @@
             </svg>
           </button>
         </div>
-        <div id="activeFilterIndicator" class="active-filter-indicator" role="status" hidden></div>
         <nav id="commandList" class="command-list" aria-label="コマンド一覧"></nav>
       </aside>
 
       <main class="main" id="mainContent">
+        <div class="main-toolbar" aria-label="検索と絞り込み">
+          <form id="commandSearchForm" class="command-search" role="search">
+            <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンドを検索" aria-label="コマンドを検索" />
+            <button id="commandSearchButton" type="submit">検索</button>
+          </form>
+          <button id="activeFilterIndicator" class="active-filter-indicator" type="button" hidden></button>
+        </div>
+
         <section class="panel command-detail-panel" id="commandDetailPanel">
           <div class="panel-header">コマンド詳細</div>
           <div id="commandDetail" class="detail"></div>
@@ -78,7 +85,20 @@
       </div>
     </dialog>
 
-    <script type="module" src="./js/site-nav.js?v=7"></script>
-    <script type="module" src="./js/main.js?v=7"></script>
+
+
+    <dialog id="searchNoticeDialog" class="filter-dialog search-notice-dialog" aria-labelledby="searchNoticeTitle" aria-describedby="searchNoticeText">
+      <div class="filter-dialog-header">
+        <h2 id="searchNoticeTitle">検索結果</h2>
+        <button id="searchNoticeClose" class="filter-dialog-close" type="button" aria-label="検索結果を閉じる">×</button>
+      </div>
+      <p id="searchNoticeText" class="filter-dialog-note">一致するコマンドが見つかりませんでした。</p>
+      <div class="filter-dialog-actions">
+        <button id="searchNoticeDone" type="button">閉じる</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="./js/site-nav.js?v=8"></script>
+    <script type="module" src="./js/main.js?v=8"></script>
   </body>
 </html>
