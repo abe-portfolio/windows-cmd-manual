@@ -343,3 +343,28 @@
           min-height: 360px;
         }
       }
+
+/* Navigation to the independent batch-file learning page. */
+.batch-page-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  margin: 0 0 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: rgba(96, 165, 250, 0.10);
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+.batch-page-link:hover, .batch-page-link:focus-visible {
+  background: rgba(96, 165, 250, 0.2);
+  outline-offset: 3px;
+}
+.batch-placeholder {
+  min-height: 160px;
+}
+.batch-placeholder-note {
+  color: var(--muted);
+}

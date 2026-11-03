@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windows Batch Playground</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" aria-label="バッチファイル編メニュー">
+        <div class="sidebar-heading"><h1>Windows Batch</h1></div>
+        <nav class="command-list" aria-label="ページナビゲーション">
+          <a class="command-link" href="../">
+            <span class="command-name">← CMD編へ戻る</span>
+            <span class="command-summary">コマンドプレイグラウンド</span>
+          </a>
+          <a class="command-link active" href="./" aria-current="page">
+            <span class="command-name">バッチファイル編</span>
+            <span class="command-summary">準備中</span>
+          </a>
+        </nav>
+      </aside>
+      <main class="main" id="mainContent">
+        <section class="panel command-detail-panel" aria-label="バッチファイル編の解説">
+          <div class="panel-header">バッチファイル詳細</div>
+          <div class="detail batch-placeholder">
+            <span class="badge">バッチファイル編</span>
+            <h2>バッチファイルプレイグラウンド</h2>
+            <p class="batch-placeholder-note">現在、コンテンツを準備中です。</p>
+          </div>
+        </section>
+        <section class="panel terminal-pane" aria-label="将来のバッチ実行パネル">
+          <div class="panel-header explorer-header"><span>疑似エクスプローラ</span></div>
+          <div class="explorer">
+            <div class="path">C:\WORK</div>
+            <ul class="tree" aria-label="仮想ファイル一覧"></ul>
+          </div>
+          <div class="terminal-output" aria-label="実行結果"></div>
+          <div class="terminal-form">
+            <span class="batch-placeholder-note">バッチ実行機能は今後追加します。</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -41,3 +41,10 @@ This app simulates commands; it never executes actual Windows commands.
 ## Tests
 
 `npm test` (requires Node.js; no `npm install` required). Browser-level end-to-end tests were not available in the generation environment; manually check the published GitHub Pages site on desktop and mobile before release.
+
+## バッチファイル編（初期ページ）
+
+- CMD編の「はじめに」ページで、見出し「そもそもコマンドプロンプトとは？」の直前に「バッチファイル編へ」リンクを設置しています。
+- `batch/index.html` は既存の `css/style.css` を再利用する静的な空ページです。まだコマンドやバッチは実行できません。
+- GitHub Pagesのリポジトリルートへファイルを配置した場合、CMD編は `/`、バッチ編は `/batch/` で閲覧できます。
+- 今後の実装で共通コマンドエンジンを作成するときは、バッチ編からも `js/core/` を参照する計画です。
