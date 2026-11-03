@@ -1,3 +1,4 @@
+import { getCommandTags, TAGS } from '../data/tags.js';
 // Extracted from the original single-file CMD playground.
 export function createDetail(ctx) {
   const { commandCatalog, commandDetailEl, commandNameOrigins, displayCommandName, escapeHtml, mainContentEl } = ctx;
@@ -12,7 +13,7 @@ export function createDetail(ctx) {
 
         commandDetailEl.dataset.commandName = commandName;
         commandDetailEl.innerHTML = `
-          <span class="badge">Windows CMD</span>
+          <div class="command-tags">${getCommandTags(commandName).map(tag => `<span class="command-tag ${TAGS[tag].className}">${TAGS[tag].label}</span>`).join('')}</div>
           <h2>${displayCommandName(command.name)}</h2>
           <div class="syntax">${command.syntax}</div>
           <p>${command.description}</p>

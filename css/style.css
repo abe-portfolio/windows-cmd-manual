@@ -388,3 +388,78 @@
 .setting-toggle-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .setting-status { color: var(--accent-2); min-height: 1.5em; }
 .setting-note { font-size: .87rem; line-height: 1.7; }
+
+/* v5: compact navigation toggle and future tag-filter modal. */
+.site-nav-toggle {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 7px;
+  border-color: rgba(96,165,250,.55);
+}
+.site-nav-toggle svg { width: 19px; height: 19px; }
+.site-heading-group { gap: 9px; }
+.site-nav-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  padding: 11px 12px;
+  color: var(--text);
+  font: inherit;
+  font-size: .94rem;
+  cursor: pointer;
+}
+.site-nav-menu button:hover { background: rgba(96,165,250,.18); }
+.site-nav-menu button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.filter-dialog {
+  box-sizing: border-box;
+  width: min(480px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 24px 80px rgba(0,0,0,.5);
+}
+.filter-dialog::backdrop { background: rgba(0,0,0,.65); }
+.filter-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.filter-dialog-header h2 { font-size: 1.15rem; margin: 0; }
+.filter-dialog-close { border: 0; background: transparent; color: var(--text); font-size: 1.7rem; cursor: pointer; padding: 0 5px; }
+.filter-dialog-note { color: var(--muted); line-height: 1.8; }
+.filter-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.filter-dialog-actions button { border: 1px solid var(--accent); border-radius: 8px; background: rgba(96,165,250,.15); color: var(--text); padding: 9px 20px; cursor: pointer; }
+.filter-dialog button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.filter-dialog-actions button:disabled { opacity: .45; cursor: not-allowed; border-color: var(--line); }
+
+/* v6 tag classifications and accessible two-mode filtering */
+.command-tags, .filter-tag-choices { display:flex; flex-wrap:wrap; gap:7px; }
+.command-tags { margin-bottom:12px; }
+.command-tag, .filter-chip { display:inline-flex; align-items:center; padding:5px 10px; border:1px solid; border-radius:999px; font-size:.78rem; line-height:1.45; font-weight:600; }
+.command-tag { cursor:default; }
+.filter-chip { cursor:pointer; background:transparent; font:inherit; font-size:.85rem; }
+.filter-chip[aria-pressed="true"] { outline:2px solid currentColor; outline-offset:2px; box-shadow:inset 0 0 0 50px rgba(255,255,255,.12); }
+.tag-general {color:#34d399; border-color:#20896b; background-color:rgba(52,211,153,.12)}
+.tag-file {color:#93c5fd; border-color:#3b82f6; background-color:rgba(59,130,246,.13)}
+.tag-directory {color:#c4b5fd; border-color:#8b5cf6; background-color:rgba(139,92,246,.12)}
+.tag-network {color:#67e8f9; border-color:#0891b2; background-color:rgba(6,182,212,.13)}
+.tag-search {color:#fcd34d; border-color:#ca8a04; background-color:rgba(234,179,8,.12)}
+.tag-system {color:#fda4af; border-color:#e11d48; background-color:rgba(244,63,94,.12)}
+.tag-process {color:#fdba74; border-color:#ea580c; background-color:rgba(249,115,22,.12)}
+.tag-output {color:#a7f3d0; border-color:#059669; background-color:rgba(16,185,129,.12)}
+.tag-comparison {color:#f0abfc; border-color:#c026d3; background-color:rgba(217,70,239,.12)}
+.filter-mode-group { display:grid; gap:9px; border:1px solid var(--line); border-radius:10px; padding:12px; margin:16px 0; }
+.filter-mode-group legend { color:var(--text); font-weight:700; padding:0 5px; }
+.filter-mode-group label { display:flex; align-items:center; gap:9px; cursor:pointer; }
+.filter-mode-group input { accent-color:#60a5fa; }
+.filter-tag-heading { font-weight:700; margin:16px 0 10px; }
+.filter-tag-choices { padding:5px 3px; }
+.filter-dialog-note { font-size:.87rem; }
+.active-filter-indicator { margin: 12px 0; padding:8px 10px; border:1px solid #60a5fa; border-radius:8px; color:#93c5fd; font-size:.8rem; }
+.active-filter-indicator[hidden], .command-link[hidden] {display:none!important;}
+@media (max-width: 480px) {.filter-dialog {padding:16px;} .filter-mode-group label {font-size:.9rem;}}

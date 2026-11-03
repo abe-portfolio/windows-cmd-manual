@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=4" />
+    <link rel="stylesheet" href="./css/style.css?v=6" />
   </head>
   <body>
     <div class="app">
@@ -20,6 +20,7 @@
               </button>
               <nav id="siteNavMenu" class="site-nav-menu" aria-label="ページメニュー" hidden>
                 <a href="./batch/">バッチファイル編</a>
+                <button id="filterMenuButton" type="button" aria-haspopup="dialog" aria-controls="filterDialog">絞り込み</button>
                 <a href="./settings/">設定</a>
               </nav>
             </div>
@@ -31,6 +32,7 @@
             </svg>
           </button>
         </div>
+        <div id="activeFilterIndicator" class="active-filter-indicator" role="status" hidden></div>
         <nav id="commandList" class="command-list" aria-label="コマンド一覧"></nav>
       </aside>
 
@@ -55,7 +57,28 @@
       </main>
     </div>
 
-    <script type="module" src="./js/site-nav.js?v=4"></script>
-    <script type="module" src="./js/main.js?v=4"></script>
+    <dialog id="filterDialog" class="filter-dialog" aria-labelledby="filterDialogTitle" aria-describedby="filterDialogDescription">
+      <div class="filter-dialog-header">
+        <h2 id="filterDialogTitle">コマンドの絞り込み</h2>
+        <button id="filterDialogClose" class="filter-dialog-close" type="button" aria-label="絞り込みを閉じる">×</button>
+      </div>
+      <p id="filterDialogDescription">タグを複数選択できます。通常検索はOR条件、除外検索では選択タグのいずれかを含むコマンドを除外します。</p>
+      <fieldset class="filter-mode-group">
+        <legend>検索方式（同時指定不可）</legend>
+        <label><input type="radio" name="filterMode" value="include" checked /> 一致するコマンドを表示</label>
+        <label><input type="radio" name="filterMode" value="exclude" /> 選択タグを除外</label>
+      </fieldset>
+      <div class="filter-tag-heading">タグを選択</div>
+      <div id="filterTagChoices" class="filter-tag-choices" role="group" aria-label="検索タグ"></div>
+      <p id="filterResultCount" class="filter-dialog-note" role="status">タグ未選択時は全コマンドを表示します。</p>
+      <div class="filter-dialog-actions">
+        <button id="filterClearButton" type="button">フィルター解除</button>
+        <button id="filterApplyButton" type="button">適用して閉じる</button>
+        <button id="filterDialogDone" type="button">閉じる</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="./js/site-nav.js?v=6"></script>
+    <script type="module" src="./js/main.js?v=6"></script>
   </body>
 </html>

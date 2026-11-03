@@ -1,3 +1,4 @@
+import { filterCommandNames, getCommandTags, TAGS } from '../data/tags.js';
 // Extracted from the original single-file CMD playground.
 export function createSidebar(ctx) {
   const { commandCatalog, commandDetailEl, commandDetailPanelEl, commandListEl, commandSidebarEl, displayCommandName, mainContentEl, menuToggleEl, state } = ctx;
@@ -78,7 +79,19 @@ export function createSidebar(ctx) {
             commandDetailPanelEl.classList.add('mobile-detail-visible');
             setMobileMenuOpen(false);
           });
+          // 最初はすべて表示。後で絞り込みイベントによって表示だけ変更する。
+          link.dataset.tags = getCommandTags(command.name).join(' ');
           commandListEl.appendChild(link);
+        });
+        document.addEventListener('cmdpg:filter-change', (event) => {
+          const selected = new Set(event.detail?.tags ?? []);
+          const mode = event.detail?.mode === 'exclude' ? 'exclude' : 'include';
+          const visible = new Set(filterCommandNames(Object.keys(commandCatalog), selected, mode));
+          commandListEl.querySelectorAll('.command-link').forEach(link => {
+            const name = link.dataset.commandName;
+            // 「はじめに」は絞り込みとは無関係なので常に表示。
+            link.hidden = name !== INTRO_PAGE && !visible.has(name);
+          });
         });
       }
   return { setMobileMenuOpen, showIntroPage, initCommandList };

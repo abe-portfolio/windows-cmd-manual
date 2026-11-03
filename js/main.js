@@ -44,6 +44,7 @@ const writeTerminalLine = (...args) => ctx.writeTerminalLine(...args);
 const state = ctx.state;
 function init() {
         initCommandList();
+        document.dispatchEvent(new CustomEvent('cmdpg:commands-ready', { detail: { commandNames: Object.keys(commandCatalog) } }));
         renderExplorer();
         showIntroPage();
         writeTerminalLine('Windows CMD シミュレータを起動しました。');
