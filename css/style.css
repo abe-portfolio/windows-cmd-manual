@@ -369,3 +369,11 @@
 .placeholder-content h2 { margin-top: 0; font-size: 1.25rem; }
 .placeholder-muted { color: var(--muted); }
 @media (max-width: 750px) { .placeholder-shell { padding: 16px; } .placeholder-grid { grid-template-columns: 1fr; } }
+
+/* v3: keep the site-switch menu directly to the LEFT of Windows CMD. */
+.sidebar-heading { position: relative; }
+.site-heading-group { display:flex; align-items:center; gap:12px; }
+.site-nav-toggle { width:42px; height:42px; flex-shrink:0; border-color:rgba(96,165,250,.55); }
+.site-nav-toggle svg { width:24px; height:24px; }
+.site-nav-menu { top:calc(100% + 8px); left:0; }
+.site-heading-group h1 { margin:0; }
