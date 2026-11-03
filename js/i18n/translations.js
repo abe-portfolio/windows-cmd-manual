@@ -2,7 +2,7 @@ import { getLanguage } from '../core/language.js';
 
 export const UI = Object.freeze({
   ja: {
-    menuOpen:'ページメニューを開く',menuClose:'ページメニューを閉じる', batch:'バッチファイル編',settings:'設定', back:'← CMD編に戻る',
+    menuOpen:'ページメニューを開く',menuClose:'ページメニューを閉じる', batch:'バッチファイル編',settings:'設定',contact:'お問い合わせ', back:'← CMD編に戻る',
     settingsSubtitle:'CMDプレイグラウンドの動作設定', explorer:'疑似エクスプローラー', resetConfirm:'リセット時に確認ダイアログを表示する',
     resetDesc:'ONの場合、リセット実行前に確認します。キャンセルするとデータは初期化されません。',
     cookieNote:'初期値はONです。設定はセッションCookieに保存されます（ブラウザのセッション復元によって残る場合があります）。',
@@ -22,7 +22,7 @@ export const UI = Object.freeze({
     batchStatus:'準備中',batchDesc:'バッチファイル編は現在準備中です。今後、コマンド入力・制御構文の学習機能を追加します。'
   },
   en: {
-    menuOpen:'Open page menu',menuClose:'Close page menu',batch:'Batch File Tutorial',settings:'Settings',back:'← Back to CMD',
+    menuOpen:'Open page menu',menuClose:'Close page menu',batch:'Batch File Tutorial',settings:'Settings',contact:'Contact the developer',back:'← Back to CMD',
     settingsSubtitle:'CMD playground preferences', explorer:'Virtual File Explorer', resetConfirm:'Show a confirmation dialog before resetting',
     resetDesc:'When enabled, confirm before resetting. Canceling the dialog preserves the virtual files.',
     cookieNote:'Confirmation defaults to ON. Settings are stored in session cookies (browser session restore may retain them).',
