@@ -1,4 +1,5 @@
-import { filterCommandNames, getCommandTags, TAGS } from '../data/tags.js';
+import { getCommandTags } from '../data/tags.js';
+import { filterVisibleCommands } from '../data/command-search.js';
 // Extracted from the original single-file CMD playground.
 export function createSidebar(ctx) {
   const { commandCatalog, commandDetailEl, commandDetailPanelEl, commandListEl, commandSidebarEl, displayCommandName, mainContentEl, menuToggleEl, state } = ctx;
@@ -84,16 +85,28 @@ export function createSidebar(ctx) {
           link.dataset.tags = getCommandTags(command.name).join(' ');
           commandListEl.appendChild(link);
         });
-        document.addEventListener('cmdpg:filter-change', (event) => {
-          const selected = new Set(event.detail?.tags ?? []);
-          const mode = event.detail?.mode === 'exclude' ? 'exclude' : 'include';
-          const visible = new Set(filterCommandNames([INTRO_PAGE, ...Object.keys(commandCatalog)], selected, mode));
+        let activeTags = [];
+        let activeMode = 'include';
+        let activeSearch = '';
+        const updateVisibleCommands = () => {
+          const visible = new Set(filterVisibleCommands(
+            [INTRO_PAGE, ...Object.keys(commandCatalog)], activeSearch, activeTags,
+            activeMode, displayCommandName
+          ));
           commandListEl.querySelectorAll('.command-link').forEach(link => {
-            const name = link.dataset.commandName;
-            // はじめにもWindows CMDタグを持ち、ほかのコマンドと同じ条件で絞り込む。
-            link.hidden = !visible.has(name);
+            link.hidden = !visible.has(link.dataset.commandName);
           });
+        };
+        document.addEventListener('cmdpg:filter-change', (event) => {
+          activeTags = Array.isArray(event.detail?.tags) ? event.detail.tags : [];
+          activeMode = event.detail?.mode === 'exclude' ? 'exclude' : 'include';
+          updateVisibleCommands();
         });
+        document.addEventListener('cmdpg:search-change', (event) => {
+          activeSearch = typeof event.detail?.query === 'string' ? event.detail.query : '';
+          updateVisibleCommands();
+        });
+
       }
   return { setMobileMenuOpen, showIntroPage, initCommandList };
 }

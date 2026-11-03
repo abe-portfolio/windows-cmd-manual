@@ -1,38 +1,12 @@
-import { getCommandTags, TAGS } from '../data/tags.js';
-
 export function createSearch(ctx) {
   const {
-    commandCatalog, commandListEl, commandSearchFormEl, commandSearchInputEl, searchNoticeDialogEl,
-    searchNoticeTextEl, searchNoticeCloseEl, searchNoticeDoneEl, commandDetailPanelEl, state, displayCommandName
+    commandListEl, commandSearchFormEl, commandSearchInputEl,
+    searchNoticeDialogEl, searchNoticeTextEl, searchNoticeCloseEl, searchNoticeDoneEl
   } = ctx;
-  const renderCommandDetail = (...args) => ctx.renderCommandDetail(...args);
-  const resetInputNavigation = (...args) => ctx.resetInputNavigation(...args);
-  const setMobileMenuOpen = (...args) => ctx.setMobileMenuOpen(...args);
-  const showIntroPage = (...args) => ctx.showIntroPage(...args);
-
-  const normalize = (value) => String(value ?? '').trim().toLowerCase();
-
-  function buildSearchTarget(name) {
-    if (name === 'intro') {
-      return 'そもそもコマンドプロンプトとは？ 初めての方向け 基本解説 windows cmd';
-    }
-    const command = commandCatalog[name];
-    if (!command) return name;
-    const tags = getCommandTags(name).map((id) => TAGS[id]?.label ?? '').join(' ');
-    return [
-      name,
-      displayCommandName(command.name),
-      command.summary,
-      command.description,
-      tags
-    ].join(' ').toLowerCase();
-  }
+  let appliedQuery = '';
 
   function openNotice(message) {
-    if (!searchNoticeDialogEl || !searchNoticeTextEl) {
-      if (typeof window !== 'undefined' && typeof window.alert === 'function') window.alert(message);
-      return;
-    }
+    if (!searchNoticeDialogEl || !searchNoticeTextEl) return;
     searchNoticeTextEl.textContent = message;
     if (!searchNoticeDialogEl.open) searchNoticeDialogEl.showModal();
   }
@@ -42,42 +16,36 @@ export function createSearch(ctx) {
     commandSearchInputEl?.focus();
   }
 
-  function getVisibleLinks() {
-    return [...(commandListEl?.querySelectorAll?.('.command-link') ?? [])].filter((link) => !link.hidden);
-  }
-
-  function openCommand(name) {
-    state.history = [];
-    resetInputNavigation(true);
-    if (name === 'intro') {
-      showIntroPage();
-    } else {
-      renderCommandDetail(name);
-      commandDetailPanelEl.classList.add('mobile-detail-visible');
-      setMobileMenuOpen(false);
+  function applyQuery(query, notifyOnEmpty = true) {
+    appliedQuery = String(query ?? '').trim();
+    document.dispatchEvent(new CustomEvent('cmdpg:search-change', {
+      detail: { query: appliedQuery }
+    }));
+    const visible = [...(commandListEl?.querySelectorAll?.('.command-link') ?? [])]
+      .filter(link => !link.hidden);
+    if (appliedQuery && notifyOnEmpty && visible.length === 0) {
+      openNotice(`「${appliedQuery}」に一致するコマンドが見つかりませんでした。絞り込み条件も確認してください。`);
     }
   }
 
-  function handleSearch(event) {
+  function handleSubmit(event) {
     event?.preventDefault?.();
-    const query = normalize(commandSearchInputEl?.value);
-    if (!query) {
-      commandSearchInputEl?.focus();
-      return;
+    applyQuery(commandSearchInputEl?.value);
+  }
+
+  // For <input type="search">, Chrome/Edge/Safari emit input/search
+  // when the native clear (×) is pressed. Only clearing affects the list
+  // immediately; nonempty values are applied with the Search button/Enter.
+  function handleClearing() {
+    if (commandSearchInputEl?.value === '' && appliedQuery) {
+      applyQuery('', false);
     }
-    const links = getVisibleLinks();
-    const match = links.find((link) => buildSearchTarget(link.dataset.commandName).includes(query));
-    if (!match) {
-      const suffix = links.length === 0 ? ' 現在の絞り込み条件では表示対象がありません。' : '';
-      openNotice(`「${commandSearchInputEl.value}」に一致する候補が見つかりませんでした。${suffix}`);
-      return;
-    }
-    openCommand(match.dataset.commandName);
-    match.scrollIntoView?.({ block: 'nearest' });
   }
 
   function initCommandSearch() {
-    commandSearchFormEl?.addEventListener('submit', handleSearch);
+    commandSearchFormEl?.addEventListener('submit', handleSubmit);
+    commandSearchInputEl?.addEventListener('input', handleClearing);
+    commandSearchInputEl?.addEventListener('search', handleClearing);
     searchNoticeCloseEl?.addEventListener('click', closeNotice);
     searchNoticeDoneEl?.addEventListener('click', closeNotice);
   }

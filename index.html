@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=8" />
+    <link rel="stylesheet" href="./css/style.css?v=9" />
   </head>
   <body>
     <div class="app">
@@ -38,7 +38,7 @@
       <main class="main" id="mainContent">
         <div class="main-toolbar" aria-label="検索と絞り込み">
           <form id="commandSearchForm" class="command-search" role="search">
-            <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンドを検索" aria-label="コマンドを検索" />
+            <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" aria-label="コマンド名を検索。入力を消すと検索条件を解除" />
             <button id="commandSearchButton" type="submit">検索</button>
           </form>
           <button id="activeFilterIndicator" class="active-filter-indicator" type="button" hidden></button>
@@ -98,7 +98,7 @@
       </div>
     </dialog>
 
-    <script type="module" src="./js/site-nav.js?v=8"></script>
-    <script type="module" src="./js/main.js?v=8"></script>
+    <script type="module" src="./js/site-nav.js?v=9"></script>
+    <script type="module" src="./js/main.js?v=9"></script>
   </body>
 </html>
