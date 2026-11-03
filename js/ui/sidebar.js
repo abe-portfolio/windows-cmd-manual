@@ -93,6 +93,7 @@ export function createSidebar(ctx) {
         const showNoResults = () => {
           // Use textContent, not HTML interpolation, even if the search term is user supplied.
           mainContentEl.classList.remove('intro-mode');
+          mainContentEl.classList.add('no-results-mode');
           commandDetailEl.dataset.commandName = '';
           commandDetailEl.replaceChildren();
           const wrapper = document.createElement('div');
@@ -124,6 +125,7 @@ export function createSidebar(ctx) {
             return;
           }
           if (showingNoResults || !visible.has(commandDetailEl.dataset.commandName)) {
+            mainContentEl.classList.remove('no-results-mode');
             showingNoResults = false;
             const next = visible.has(lastSelectedCommand) ? lastSelectedCommand : names[0];
             if (next === INTRO_PAGE) showIntroPage();

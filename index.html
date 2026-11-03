@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows CMD Manual</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
-    <link rel="stylesheet" href="./css/style.css?v=10" />
+    <link rel="stylesheet" href="./css/style.css?v=11" />
   </head>
   <body>
     <div class="app">
@@ -20,7 +20,6 @@
               </button>
               <nav id="siteNavMenu" class="site-nav-menu" aria-label="ページメニュー" hidden>
                 <a href="./batch/">バッチファイル編</a>
-                <button id="filterMenuButton" type="button" aria-haspopup="dialog" aria-controls="filterDialog">絞り込み</button>
                 <a href="./settings/">設定</a>
               </nav>
             </div>
@@ -41,6 +40,7 @@
             <input id="commandSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="コマンド名を検索（部分一致）" aria-label="コマンド名を検索。入力を消すと検索条件を解除" />
             <button id="commandSearchButton" type="submit">検索</button>
           </form>
+          <button id="filterMenuButton" class="toolbar-filter-button" type="button" aria-haspopup="dialog" aria-controls="filterDialog">絞り込み</button>
           <button id="activeFilterIndicator" class="active-filter-indicator" type="button" hidden></button>
         </div>
 
@@ -49,7 +49,7 @@
           <div id="commandDetail" class="detail"></div>
         </section>
 
-        <section class="panel terminal-pane">
+        <section class="panel terminal-pane" id="terminalPane">
           <div class="panel-header explorer-header"><span>擬似エクスプローラ</span><button type="button" id="resetButton" class="reset-button">↻ リセット</button></div>
           <div class="explorer">
             <div id="currentPath" class="path">C:\WORK</div>
@@ -98,7 +98,7 @@
       </div>
     </dialog>
 
-    <script type="module" src="./js/site-nav.js?v=10"></script>
-    <script type="module" src="./js/main.js?v=10"></script>
+    <script type="module" src="./js/site-nav.js?v=11"></script>
+    <script type="module" src="./js/main.js?v=11"></script>
   </body>
 </html>
